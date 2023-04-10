@@ -25,16 +25,16 @@ create table league(
 	league_id serial primary key,
 	league_name varchar(50) unique not null,
 	description varchar(200) not null,
-	course_id int not null,
-	admin_id int not null,
+	course_id int,
+	admin_id int,
 	
 	constraint fk_home_course_id foreign key (course_id) references course (course_id),
 	constraint fk_league_admin_id foreign key (admin_id) references users (user_id)
 );
 
 create table league_player(
-	league_id int not null,
-	player_id int not null,
+	league_id int,
+	player_id int,
 	
 	constraint league_id foreign key (league_id) references league (league_id),
 	constraint player_id foreign key (player_id) references users (user_id)
@@ -42,26 +42,25 @@ create table league_player(
 
 create table match(
 	match_id serial primary key,
-	league_id int not null,
+	league_id int,
 	start_time timestamp not null,
-	end_time timestamp constraint end_time_past_start check (end_time > start_time) not null,
 	is_completed boolean not null,
 	
 	constraint league_id foreign key (league_id) references league (league_id)
 );
 
 create table match_player(
-	match_id int not null,
-	player_id int not null,
+	match_id int,
+	player_id int,
 	
 	constraint match_id foreign key (match_id) references match (match_id),
 	constraint player_id foreign key (player_id) references users (user_id)
 );
 
-create table scoretable(
+create table score_card(
 	scoretable_id serial primary key,
-	match_id int not null,
-	player_id int not null,
+	match_id int,
+	player_id int,
 	score int not null,
 	
 	constraint match_id foreign key (match_id) references match (match_id),
@@ -69,3 +68,5 @@ create table scoretable(
 );
 
 commit;
+
+select * from match_player;
