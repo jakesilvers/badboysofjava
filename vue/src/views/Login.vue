@@ -24,12 +24,13 @@
                             >
                                 Thank you for registering, please sign in.
                             </div>
+
                             <div class="form-input-group">
                                 <label class="form-control-label" for="username"
                                     >Username</label
                                 >
                                 <input
-                                    class="form-control"
+                                    class="form-control mb-3"
                                     type="text"
                                     id="username"
                                     v-model="user.username"

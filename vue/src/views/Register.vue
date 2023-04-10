@@ -15,7 +15,7 @@
                     >
                         <div class="card-body login-form">
                             <form @submit.prevent="register">
-                                <h1 class="mb-4">Create</h1>
+                                <h1 class="mb-4">Create Account</h1>
                                 <div role="alert" v-if="registrationErrors">
                                     {{ registrationErrorMsg }}
                                 </div>
