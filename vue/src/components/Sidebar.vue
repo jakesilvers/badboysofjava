@@ -2,8 +2,10 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="#"
-                    >Home <span class="sr-only">(current)</span></a
+                <a class="nav-item nav-link" href="#">
+                    <router-link v-bind:to="{ name: 'home' }"
+                        >Home</router-link
+                    ></a
                 >
                 <a class="nav-item nav-link" href="#">My Leagues</a>
                 <a class="nav-item nav-link" href="#">My Tee Times</a>
