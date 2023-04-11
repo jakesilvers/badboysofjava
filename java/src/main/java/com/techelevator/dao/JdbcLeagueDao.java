@@ -89,6 +89,16 @@ public class JdbcLeagueDao implements LeagueDao {
         return leagueID;
     }
 
+    public League getLeagueByID(int leagueID) {
+        League l = new League();
+        String sql = "SELECT * FROM league WHERE league_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, leagueID);
+        if (results.next()) {
+            l = mapRowToLeague(results);
+        }
+        return l;
+    }
+
     private League mapRowToLeague(SqlRowSet rs) {
         League l = new League();
         l.setLeagueID(rs.getInt("league_id"));

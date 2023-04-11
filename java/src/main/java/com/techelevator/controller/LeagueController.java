@@ -15,7 +15,7 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
-
+@CrossOrigin
 public class LeagueController {
 
     private CourseDao courseDao;
@@ -63,8 +63,18 @@ public class LeagueController {
     }
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping ( path ="/api/league/{leagueID}/user/{userID}", method = RequestMethod.DELETE)
-    public boolean removePlayer (@PathVariable int leagueID, @PathVariable int userID){
-        return leagueDao.removePlayer(leagueID, userID);
+    public boolean removePlayer (@PathVariable int leagueID, @PathVariable int userID, Principal p){
+        League l = leagueDao.getLeagueByID(leagueID);
+
+        int adminID = l.getAdminID();
+
+        int currentUserID = getFromPrincipal(p);
+
+
+        if (adminID == currentUserID ) {
+            return leagueDao.removePlayer(leagueID, userID);
+        }
+        return false;
     }
 
 
