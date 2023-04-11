@@ -6,12 +6,12 @@ public class NewLeagueDto {
     private int courseID;
     private int adminID;
 
-    public NewLeagueDto(String leagueName, String description, int courseID, int adminID) {
-        this.leagueName = leagueName;
-        this.description = description;
-        this.courseID = courseID;
-        this.adminID = adminID;
-    }
+//    public NewLeagueDto(String leagueName, String description, int courseID, int adminID) {
+//        this.leagueName = leagueName;
+//        this.description = description;
+//        this.courseID = courseID;
+//        this.adminID = adminID;
+//    }
 
     public String getLeagueName() {
         return leagueName;

@@ -40,7 +40,7 @@ public class LeagueController {
     @RequestMapping(path = "/api/league", method = RequestMethod.POST)
     public League createLeague(@Valid @RequestBody NewLeagueDto l, Principal principal) {
 
-        League newLeague = new League(0, "", "", 0, 0);
+        League newLeague = new League();
 
         newLeague.setLeagueName(l.getLeagueName());
         newLeague.setDescription(l.getDescription());
