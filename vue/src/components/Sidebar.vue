@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-item nav-link" href="#"> <router-link v-bind:to="{ name: 'home' }">Home</router-link></a>
@@ -19,5 +19,13 @@ export default {};
 <style>
 #sidebar {
     background-color: white;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+.navbar-nav .nav-item {
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
 }
 </style>
