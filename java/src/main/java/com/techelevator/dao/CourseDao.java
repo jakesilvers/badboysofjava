@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CourseDao {
 
-    Course getCourse(int courseID);
+    Course getCourse(String courseName);
 
     List<Course> listCourses();
 

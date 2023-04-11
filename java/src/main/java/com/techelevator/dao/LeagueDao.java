@@ -24,5 +24,7 @@ public interface LeagueDao {
 
     int createLeague(League l);
 
+    League getLeagueByID(int leagueID);
+
 
 }
