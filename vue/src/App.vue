@@ -17,7 +17,5 @@
     margin-top: 30px;
 }
 
-a {
-    color: white;
-}
+
 </style>
