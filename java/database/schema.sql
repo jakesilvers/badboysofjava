@@ -1,6 +1,6 @@
 start transaction;
 
-DROP TABLE IF EXISTS users, course, league, league_player, match, match_player, scoretable;
+--DROP TABLE IF EXISTS users, course, league, league_player, match, match_player, scoretable;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -68,6 +68,14 @@ create table score_card(
 	
 	constraint match_id foreign key (match_id) references match (match_id),
 	constraint player_id foreign key (player_id) references users (user_id)
+);
+
+commit;
+
+start transaction;
+
+create table invitations(
+	
 );
 
 commit;
