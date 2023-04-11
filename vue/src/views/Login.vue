@@ -3,11 +3,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 image-div">
-                    <img
-                        class="d-block"
-                        src="https://i.imgur.com/ffeaW6I.png"
-                        alt=""
-                    />
+                    <img class="d-block" src="https://i.imgur.com/ffeaW6I.png" alt="" />
                 </div>
                 <div class="card login-box shadow p-3 mb-5 bg-white rounded">
                     <div class="card-body login-form">
@@ -15,53 +11,22 @@
                             <div>
                                 <h1 class="mb-4">Sign In</h1>
                             </div>
-                            <div role="alert" v-if="invalidCredentials">
-                                Invalid username and password!
-                            </div>
-                            <div
-                                role="alert"
-                                v-if="this.$route.query.registration"
-                            >
-                                Thank you for registering, please sign in.
-                            </div>
+                            <div role="alert" class="bad-login" v-if="invalidCredentials">Invalid username and password!</div>
+                            <div class="thank-you" role="alert" v-if="this.$route.query.registration">Thank you for registering, please sign in.</div>
 
                             <div class="form-input-group">
-                                <label class="form-control-label" for="username"
-                                    >Username</label
-                                >
-                                <input
-                                    class="form-control mb-3"
-                                    type="text"
-                                    id="username"
-                                    v-model="user.username"
-                                    required
-                                    autofocus
-                                />
+                                <label class="form-control-label" for="username">Username</label>
+                                <input class="form-control mb-3" type="text" id="username" v-model="user.username" required autofocus />
                             </div>
                             <div class="form-input-group">
-                                <label class="form-control-label" for="password"
-                                    >Password</label
-                                >
-                                <input
-                                    class="form-control"
-                                    type="password"
-                                    id="password"
-                                    v-model="user.password"
-                                    required
-                                />
+                                <label class="form-control-label" for="password">Password</label>
+                                <input class="form-control" type="password" id="password" v-model="user.password" required />
                             </div>
                             <div class="login-btn login-text">
-                                <button
-                                    class="btn btn-outline-primary"
-                                    type="submit"
-                                >
-                                    Sign in
-                                </button>
+                                <button class="btn btn-outline-primary" type="submit">Sign in</button>
                             </div>
                             <p>
-                                <router-link :to="{ name: 'register' }"
-                                    >Need an account? Sign up.</router-link
-                                >
+                                <router-link :to="{ name: 'register' }">Need an account? Sign up.</router-link>
                             </p>
                         </form>
                     </div>
@@ -92,10 +57,7 @@ export default {
                 .login(this.user)
                 .then((response) => {
                     if (response.status == 200) {
-                        this.$store.commit(
-                            "SET_AUTH_TOKEN",
-                            response.data.token
-                        );
+                        this.$store.commit("SET_AUTH_TOKEN", response.data.token);
                         this.$store.commit("SET_USER", response.data.user);
                         this.$router.push("/");
                     }
@@ -146,5 +108,17 @@ p {
 
 img {
     width: 300px;
+}
+
+.thank-you {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: green;
+}
+
+.bad-login {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    color: red;
 }
 </style>
