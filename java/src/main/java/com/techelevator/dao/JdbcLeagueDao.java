@@ -14,6 +14,11 @@ public class JdbcLeagueDao implements LeagueDao {
     private JdbcUserDao jdbcUserDao;
     private JdbcTemplate jdbcTemplate;
 
+    private JdbcLeagueDao(JdbcTemplate jdbcTemplate, JdbcUserDao jdbcUserDao) {
+        this.jdbcTemplate = jdbcTemplate;
+        this.jdbcUserDao = jdbcUserDao;
+    }
+
 
     @Override
     public boolean removePlayer(int userID, int leagueID) {

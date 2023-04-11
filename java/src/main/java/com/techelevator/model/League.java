@@ -8,13 +8,13 @@ public class League {
     private int courseID;
     private int adminID;
 
-    public League(int leagueID, String leagueName, String description, int courseID, int adminID) {
-        this.leagueID = leagueID;
-        this.leagueName = leagueName;
-        this.description = description;
-        this.courseID = courseID;
-        this. adminID = adminID;
-    }
+//    public League(int leagueID, String leagueName, String description, int courseID, int adminID) {
+//        this.leagueID = leagueID;
+//        this.leagueName = leagueName;
+//        this.description = description;
+//        this.courseID = courseID;
+//        this. adminID = adminID;
+//    }
 
     public int getLeagueID() {
         return leagueID;
