@@ -12,15 +12,15 @@ public interface LeagueDao {
 
     //void invitePlayer(int userID);
 
-    boolean removePlayer(Principal principal, int userID);
+    boolean removePlayer(int userID, int leagueID);
 
-    void invitePlayer(Principal principal, int userID);
+    void invitePlayer(int userID);
 
     boolean playedAdded();
 
-    League getLeague(Principal principal, int leagueID);
+    League getLeague(int leagueID);
 
-    List<User> getUsersForLeague(Principal principal, int leagueID);
+//    List<User> getUsersForLeague(int leagueID);
 
     int createLeague(League l);
 
