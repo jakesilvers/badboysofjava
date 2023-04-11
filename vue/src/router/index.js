@@ -6,6 +6,7 @@ import Logout from "../views/Logout.vue";
 import Register from "../views/Register.vue";
 import store from "../store/index";
 import CreateLeague from "../views/CreateLeague";
+import League from "../views/League";
 
 Vue.use(Router);
 
@@ -58,6 +59,11 @@ const router = new Router({
             path: "/create-league",
             name: "create-league",
             component: CreateLeague
+        },
+        {
+            path: "/league",
+            name: "league",
+            component: League
         }
     ]
 });
