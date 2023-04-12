@@ -5,9 +5,9 @@ public class Invitation {
     private int leagueID;
     private int playerID;
     private String invitationStatus;
-    public static final String TRANSFER_STATUS_PENDING = "Pending";
-    public static final String TRANSFER_STATUS_APPROVED = "Approved";
-    public static final String TRANSFER_STATUS_REJECTED = "Rejected";
+    public static final String INVITATION_STATUS_PENDING = "Pending";
+    public static final String INVITATION_STATUS_APPROVED = "Approved";
+    public static final String INVITATION_STATUS_REJECTED = "Rejected";
 
     public int getInvitationID() {
         return invitationID;
@@ -42,17 +42,17 @@ public class Invitation {
     }
 
     public boolean isApproved() {
-        return invitationStatus.equalsIgnoreCase(TRANSFER_STATUS_APPROVED);
+        return invitationStatus.equalsIgnoreCase(INVITATION_STATUS_APPROVED);
     }
 
     public boolean isRejected() {
 
-        return invitationStatus.equalsIgnoreCase(TRANSFER_STATUS_REJECTED);
+        return invitationStatus.equalsIgnoreCase(INVITATION_STATUS_REJECTED);
     }
 
     public boolean isPending() {
 
-        return invitationStatus.equalsIgnoreCase(TRANSFER_STATUS_PENDING);
+        return invitationStatus.equalsIgnoreCase(INVITATION_STATUS_PENDING);
     }
 
 }

@@ -4,9 +4,9 @@ public class NewInvitationDto {
     private int leagueID;
     private int playerID;
     private String invitationStatus;
-    public static final String TRANSFER_STATUS_PENDING = "Pending";
-    public static final String TRANSFER_STATUS_APPROVED = "Approved";
-    public static final String TRANSFER_STATUS_REJECTED = "Rejected";
+    public static final String INVITATION_STATUS_PENDING = "Pending";
+    public static final String INVITATION_STATUS_APPROVED = "Approved";
+    public static final String INVITATION_STATUS_REJECTED = "Rejected";
 
 
     public int getLeagueID() {
