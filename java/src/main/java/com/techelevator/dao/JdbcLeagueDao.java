@@ -84,7 +84,7 @@ public class JdbcLeagueDao implements LeagueDao {
         } catch (NullPointerException e) {
             throw new NullPointerException("Unable to create league");
         }
-
+        addAdminIntoLeaguePlayer(leagueID, l.getAdminID());
 
         return leagueID;
     }
@@ -120,6 +120,14 @@ public class JdbcLeagueDao implements LeagueDao {
  //       u.setActivated(true);
 
         return u;
+    }
+
+    public void addAdminIntoLeaguePlayer(int leagueID, int adminID) {
+        String sql = "INSERT INTO league_player (league_id, player_id) " +
+                "VALUES(?, ?) ;";
+
+        jdbcTemplate.queryForRowSet(sql, leagueID, adminID);
+
     }
 
 }
