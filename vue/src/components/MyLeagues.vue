@@ -34,7 +34,7 @@ export default {
     },
     mounted() {
         axios
-            .get("/api/league/user/4")
+            .get(`/api/league/user/${this.$store.state.userID}`)
             .then((response) => {
                 this.leagues = response.data;
 
