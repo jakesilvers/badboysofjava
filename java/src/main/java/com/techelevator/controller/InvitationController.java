@@ -10,7 +10,7 @@ import static com.techelevator.model.Invitation.INVITATION_STATUS_PENDING;
 
 
 @RestController
-
+@CrossOrigin
 public class InvitationController {
 
     private InvitationDao invitationDao;
@@ -38,12 +38,12 @@ public class InvitationController {
         return i;
 }
 
-    @RequestMapping(path = "/api/invitations/{id}" , method = RequestMethod.PUT)
-    public Invitation rejectInvitation(@RequestBody Invitation i, @PathVariable int id){
-
-        invitationDao.rejectInvitation(i, id);
-
-        return i;
-    }
+//    @RequestMapping(path = "/api/invitations/{id}" , method = RequestMethod.PUT)
+//    public Invitation rejectInvitation(@RequestBody Invitation i, @PathVariable int id){
+//
+//        invitationDao.rejectInvitation(i, id);
+//
+//        return i;
+//    }
 
 }

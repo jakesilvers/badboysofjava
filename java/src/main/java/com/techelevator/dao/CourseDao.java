@@ -10,4 +10,6 @@ public interface CourseDao {
 
     List<Course> listCourses();
 
+    String getCourseNameByLeagueID(int leagueID);
+
 }
