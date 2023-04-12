@@ -29,4 +29,9 @@ public class CourseController {
         return courseDao.listCourses();
     }
 
+    @GetMapping("/api/course/league/{id}")
+    public String getCourseNameByLeagueID(@PathVariable int id) {
+        return courseDao.getCourseNameByLeagueID(id);
+    }
+
 }

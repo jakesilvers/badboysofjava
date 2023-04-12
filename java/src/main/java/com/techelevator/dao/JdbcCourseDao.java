@@ -51,6 +51,22 @@ public class JdbcCourseDao implements CourseDao {
         return courseList;
     }
 
+    @Override
+    public String getCourseNameByLeagueID(int leagueID) {
+        String courseName;
+
+        String sql = "SELECT course_name FROM course JOIN league ON course.course_id = league.course_id WHERE " +
+                "league_id = ? ;";
+
+        try {
+            courseName = jdbcTemplate.queryForObject(sql, String.class, leagueID);
+            return courseName;
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Unable to find course name");
+        }
+
+    }
+
     private Course mapRowToCourse(SqlRowSet rs) {
         Course c = new Course();
 
