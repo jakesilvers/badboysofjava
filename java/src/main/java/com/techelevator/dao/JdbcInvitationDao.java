@@ -12,9 +12,11 @@ import static com.techelevator.model.Invitation.*;
 public class JdbcInvitationDao implements InvitationDao{
 
     private JdbcTemplate jdbcTemplate;
+    private JdbcLeagueDao jdbcLeagueDao;
 
-    public JdbcInvitationDao(JdbcTemplate jdbcTemplate) {
+    public JdbcInvitationDao(JdbcTemplate jdbcTemplate, JdbcLeagueDao jdbcLeagueDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.jdbcLeagueDao = jdbcLeagueDao;
     }
 
 
@@ -37,21 +39,27 @@ public class JdbcInvitationDao implements InvitationDao{
     }
 
     @Override
-    public void acceptInvitation(Invitation i, int id) {
+    public void respondToInvitation(Invitation i, int id) {
         String sql = "UPDATE invitations SET invitation_status = ? WHERE invitation_id = ?;";
+        if (i.getInvitationStatus().equals(INVITATION_STATUS_APPROVED)) {
+            jdbcTemplate.update(sql, INVITATION_STATUS_APPROVED, id);
+            jdbcLeagueDao.addUserIntoLeaguePlayer(id, i.getPlayerID());
 
-        jdbcTemplate.update(sql, INVITATION_STATUS_APPROVED, id);
+        }
+        if (i.getInvitationStatus().equals(INVITATION_STATUS_REJECTED)) {
+            jdbcTemplate.update(sql, INVITATION_STATUS_REJECTED, id);
+        }
 
     }
 
-    @Override
-    public void rejectInvitation(Invitation i, int id) {
-
-        String sql = "UPDATE invitations SET invitation_status = ? WHERE invitation_id = ?;";
-
-        jdbcTemplate.update(sql, INVITATION_STATUS_REJECTED, id);
-
-    }
+//    @Override
+//    public void rejectInvitation(Invitation i, int id) {
+//
+//        String sql = "UPDATE invitations SET invitation_status = ? WHERE invitation_id = ?;";
+//
+//        jdbcTemplate.update(sql, INVITATION_STATUS_REJECTED, id);
+//
+//    }
 
     public Invitation mapRowToInvitation(SqlRowSet rs) {
         Invitation i = new Invitation();

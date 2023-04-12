@@ -31,8 +31,7 @@ public class LeagueController {
     }
 
     public int getFromPrincipal(Principal p) {
-        int userID = userDao.findIdByUsername(p.getName());
-        return userID;
+        return userDao.findIdByUsername(p.getName());
     }
 
 

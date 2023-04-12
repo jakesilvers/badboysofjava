@@ -42,11 +42,11 @@ public class JdbcLeagueDao implements LeagueDao {
     }
 
     @Override
-    public List<League> getLeaguesByUserID (int userID) {
+    public List<League> getLeaguesByUserID(int userID) {
         List<League> userLeagueList = new ArrayList<>();
         String sql = "SELECT * FROM league JOIN league_player ON league.league_id = league_player.league_id WHERE player_id = ?;";
 
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql,userID);
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userID);
 
         while (results.next()) {
             League l = mapRowToLeague(results);
@@ -63,7 +63,7 @@ public class JdbcLeagueDao implements LeagueDao {
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, leagueID);
 
-        while(results.next()){
+        while (results.next()) {
             User u = mapRowToUser(results);
             leaguesListOFUsers.add(u.getUsername());
         }
@@ -80,11 +80,13 @@ public class JdbcLeagueDao implements LeagueDao {
 
         try {
             leagueID = jdbcTemplate.queryForObject(sql, int.class, l.getLeagueName(), l.getDescription(),
-            l.getCourseID(), l.getAdminID());
+                    l.getCourseID(), l.getAdminID());
+
         } catch (NullPointerException e) {
             throw new NullPointerException("Unable to create league");
         }
-        addAdminIntoLeaguePlayer(leagueID, l.getAdminID());
+
+        addUserIntoLeaguePlayer(leagueID, l.getAdminID());
 
         return leagueID;
     }
@@ -108,7 +110,6 @@ public class JdbcLeagueDao implements LeagueDao {
         l.setAdminID(rs.getInt("admin_id"));
 
 
-
         return l;
     }
 
@@ -117,17 +118,23 @@ public class JdbcLeagueDao implements LeagueDao {
 //        u.setId(rs.getInt("user_id"));
         u.setUsername(rs.getString("username"));
 //        u.setPassword(rs.getString("password"));
- //       u.setActivated(true);
+        //       u.setActivated(true);
 
         return u;
     }
 
-    public void addAdminIntoLeaguePlayer(int leagueID, int adminID) {
+    public boolean addUserIntoLeaguePlayer(int leagueID, int adminID) {
         String sql = "INSERT INTO league_player (league_id, player_id) " +
-                "VALUES(?, ?) ;";
+                "VALUES(?, ?) RETURNING league_id;";
+        int success;
 
-        jdbcTemplate.queryForRowSet(sql, leagueID, adminID);
+        try {
+            success = jdbcTemplate.queryForObject(sql, int.class, leagueID, adminID);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Unable to insert player_league table");
+        }
 
+        return success > 0;
     }
 
 }
