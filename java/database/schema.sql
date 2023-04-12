@@ -96,3 +96,4 @@ start transaction;
 alter table course drop column location_long;
 commit;
 
+--fuck it
