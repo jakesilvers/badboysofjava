@@ -21,6 +21,7 @@ public class CourseController {
 
     @GetMapping("/api/{courseName}")
     public Course getCourse (@PathVariable String courseName){
+
         return courseDao.getCourse(courseName);
     }
     @GetMapping("/api/courses")
