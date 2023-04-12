@@ -1,6 +1,6 @@
 start transaction;
 
-DROP TABLE IF EXISTS users, course, league, league_player, match, match_player, scoretable;
+--DROP TABLE IF EXISTS users, course, league, league_player, match, match_player, scoretable;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -71,3 +71,29 @@ create table score_card(
 );
 
 commit;
+
+start transaction;
+
+drop table if exists invitations;
+
+create table invitations(
+	invitation_id serial primary key,
+	league_id int,
+	player_id int,
+	invitation_status varchar(25),
+	
+	constraint league_id foreign key (league_id) references league (league_id),
+	constraint player_id foreign key (player_id) references users (user_id)
+);
+
+commit;
+
+start transaction;
+alter table course drop column location_lat;
+commit;
+
+start transaction;
+alter table course drop column location_long;
+commit;
+
+--fuck it
