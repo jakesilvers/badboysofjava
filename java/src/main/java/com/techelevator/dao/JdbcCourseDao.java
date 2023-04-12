@@ -13,31 +13,37 @@ public class JdbcCourseDao implements CourseDao {
 
     private JdbcTemplate jdbcTemplate;
 
-    public JdbcCourseDao (JdbcTemplate jdbcTemplate) {
+    public JdbcCourseDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
     @Override
     public Course getCourse(String courseName) {
-        Course c = new Course();
+
         String sql = "SELECT * FROM course WHERE course_name = ?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, courseName);
-
-        if (results.next()) {
-            c = mapRowToCourse(results);
+        try {
+            if (results.next()) {
+                Course c = new Course();
+                c = mapRowToCourse(results);
+                return c;
+            }
+        } catch (NullPointerException e) {
+            throw new NullPointerException(("Sorry, course does not exist!"));
         }
-        return c;
+        return null;
     }
 
     @Override
     public List<Course> listCourses() {
         List<Course> courseList = new ArrayList<>();
 
-        String sql = "SELECT * FROM course";
+        String sql = "SELECT * FROM course;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
 
-        while (results.next()){
+        while (results.next()) {
             Course c = mapRowToCourse(results);
             courseList.add(c);
         }
@@ -50,10 +56,11 @@ public class JdbcCourseDao implements CourseDao {
 
         c.setCourseID(rs.getInt("course_id"));
         c.setCourseName(rs.getString("course_name"));
-        c.setAddress(rs.getString("address" ));
+        c.setAddress(rs.getString("address"));
         c.setCity(rs.getString("city"));
         c.setState(rs.getString("state"));
         c.setCountry(rs.getString("country"));
+
 
         return c;
 
