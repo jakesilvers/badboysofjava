@@ -12,47 +12,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <a href="#">
-                                <td>BBOJ Super League</td>
-                            </a>
-                            <td>Otto</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <a href="#">
-                                <td>BBOJ Super League</td>
-                            </a>
-                            <td>Periopolis Country Club</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <a href="#">
-                                <td>BBOJ Super League</td>
-                            </a>
-                            <td>Pound Town Par 3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <a href="#">
-                                <td>BBOJ Super League</td>
-                            </a>
-                            <td>Pound Town Par 3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <a href="#">
-                                <td>BBOJ Super League</td>
-                            </a>
-                            <td>Pound Town Par 3</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <a href="#">
-                                <td>BBOJ Super League</td>
-                            </a>
-                            <td>Pound Town Par 3</td>
+                        <tr v-for="league in leagues" :key="league.id">
+                            <th scope="row">{{ league.leagueID }}</th>
+                            <td>{{ league.leagueName }}</td>
+                            <td>{{ league.courseName }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -62,7 +25,39 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+    data() {
+        return {
+            leagues: []
+        };
+    },
+    mounted() {
+        axios
+            .get("/api/league/user/4")
+            .then((response) => {
+                this.leagues = response.data;
+
+                // Create an array of Promises for each league's course name
+                const courseNamePromises = this.leagues.map(async (league) => {
+                    try {
+                        const response = await axios.get(`/api/course/league/${league.leagueID}`);
+                        league.courseName = response.data;
+                    } catch (error) {
+                        console.log(error);
+                    }
+                });
+
+                // Wait for all Promises to resolve before rendering the data
+                Promise.all(courseNamePromises).then(() => {
+                    this.leagues = [...this.leagues];
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+};
 </script>
 
 <style scoped>
