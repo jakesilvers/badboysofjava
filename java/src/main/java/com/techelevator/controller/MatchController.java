@@ -50,12 +50,12 @@ public class MatchController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/api/match", method = RequestMethod.POST)
-    public Match createMatch(@Valid @RequestBody NewMatchDto m, Principal p){
+    public Match createMatch(@Valid @RequestBody NewMatchDto m, Principal p) {
         int leagueID = m.getLeagueID();
         League l = leagueDao.getLeagueByID(leagueID);
         int adminID = l.getAdminID();
 
-        if(adminID == getFromPrincipal(p)){
+        if (adminID == getFromPrincipal(p)) {
             Match newMatch = new Match();
             newMatch.setLeagueID(m.getLeagueID());
             newMatch.setStartTime(m.getStartTime());
@@ -68,9 +68,21 @@ public class MatchController {
 
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
+    @RequestMapping(path = "api/match/{matchID}/user/{userID}")
+    public boolean addUserToMatch(@PathVariable int matchID, @PathVariable int userID, Principal p) {
+        Match m = matchDao.getMatchByID(matchID);
+        int leagueID = m.getLeagueID();
+        League l = leagueDao.getLeagueByID(leagueID);
+        int adminID = l.getAdminID();
+
+        if (adminID == getFromPrincipal(p)) {
+            return matchDao.addUserToMatch(matchID, userID);
+        }
+        return false;
 
 
-
+    }
 
 
 }
