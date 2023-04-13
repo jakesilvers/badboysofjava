@@ -6,6 +6,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.techelevator.model.Invitation.*;
 
 @Component
@@ -60,6 +63,23 @@ public class JdbcInvitationDao implements InvitationDao{
 //        jdbcTemplate.update(sql, INVITATION_STATUS_REJECTED, id);
 //
 //    }
+
+    @Override
+    public List<Invitation> listInvitationsByUserID(int userID) {
+        List<Invitation> usersInvitations = new ArrayList<>();
+
+        String sql = "SELECT * FROM invitations WHERE player_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userID);
+
+        while(results.next()) {
+            Invitation i = mapRowToInvitation(results);
+            usersInvitations.add(i);
+        }
+
+        return usersInvitations;
+
+    }
 
     public Invitation mapRowToInvitation(SqlRowSet rs) {
         Invitation i = new Invitation();

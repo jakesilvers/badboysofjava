@@ -94,6 +94,23 @@ public class JdbcMatchDao  implements MatchDao{
 
     }
 
+    @Override
+    public Match getMatchByID(int matchID){
+        Match m = new Match();
+
+        String sql = "SELECT * FROM match WHERE match_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+
+        if (results.next()) {
+            m = mapRowToMatch(results);
+            return m;
+        }
+
+        return null;
+
+    }
+
     private User mapRowToUser(SqlRowSet rs) {
         User u = new User();
 //        u.setId(rs.getInt("user_id"));

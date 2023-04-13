@@ -101,6 +101,8 @@ public class JdbcLeagueDao implements LeagueDao {
         return l;
     }
 
+
+
     private League mapRowToLeague(SqlRowSet rs) {
         League l = new League();
         l.setLeagueID(rs.getInt("league_id"));
