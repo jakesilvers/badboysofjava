@@ -18,5 +18,7 @@ public interface MatchDao {
 
     boolean addUserToMatch(int matchID, int userID);
 
+    Match getMatchByID(int matchID);
+
 
 }
