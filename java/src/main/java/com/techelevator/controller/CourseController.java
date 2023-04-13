@@ -21,11 +21,17 @@ public class CourseController {
 
     @GetMapping("/api/{courseName}")
     public Course getCourse (@PathVariable String courseName){
+
         return courseDao.getCourse(courseName);
     }
     @GetMapping("/api/courses")
     public List<Course>listCourses(){
         return courseDao.listCourses();
+    }
+
+    @GetMapping("/api/course/league/{id}")
+    public String getCourseNameByLeagueID(@PathVariable int id) {
+        return courseDao.getCourseNameByLeagueID(id);
     }
 
 }

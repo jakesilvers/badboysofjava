@@ -97,3 +97,15 @@ alter table course drop column location_long;
 commit;
 
 --fuck it
+
+select * from course;
+
+start transaction;
+insert into course values (default, 'Shannopin Country Club', '1 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
+commit;
+start transaction;
+insert into course values (default, 'North Park Par 3', '2 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
+insert into course values (default, 'South Park', '3 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
+insert into course values (default, 'Wildwood Golf Club', '101 Wildmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
+insert into course values (default, 'Augusta National', '300 Masters Lane', 'Augusta', 'Georgia', 'United States');
+commit;
