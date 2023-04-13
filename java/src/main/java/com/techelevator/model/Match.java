@@ -1,22 +1,22 @@
 package com.techelevator.model;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 public class Match {
 
     private int matchID;
     private int leagueID;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private Time startTime;
     private boolean isCompleted;
 
-    public Match(int matchID, int leagueID, LocalDateTime startTime, LocalDateTime endTime, boolean isCompleted) {
-        this.matchID = matchID;
-        this.leagueID = leagueID;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.isCompleted = isCompleted;
-    }
+//    public Match(int matchID, int leagueID, LocalDateTime startTime, LocalDateTime endTime, boolean isCompleted) {
+//        this.matchID = matchID;
+//        this.leagueID = leagueID;
+//        this.startTime = startTime;
+//        this.endTime = endTime;
+//        this.isCompleted = isCompleted;
+//    }
 
     public int getMatchID() {
         return matchID;
@@ -34,20 +34,12 @@ public class Match {
         this.leagueID = leagueID;
     }
 
-    public LocalDateTime getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
     }
 
     public boolean isCompleted() {
