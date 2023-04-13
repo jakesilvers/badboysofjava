@@ -1,72 +1,106 @@
 <template>
     <div class="container mx-auto">
         <div class="row">
-            <div class="col-8">
-                <h1>BBOJ Super League</h1>
+            <div class="col-6">
+                <h1>{{ league.leagueName }}</h1>
                 <p class="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga at eum repellat accusantium nisi excepturi necessitatibus! Iste quidem non
-                    quo, ab consequatur quibusdam nesciunt. Consequuntur, iure architecto. Facilis, placeat aliquam?
+                    {{ league.description }}
                 </p>
                 <p><strong>Course:</strong></p>
-                <p class="course"><em>Periopolis Country Club</em></p>
+                <p class="course">
+                    <em>{{ courseName }}</em>
+                </p>
                 <p><strong>Players:</strong></p>
-                <p class="players">nchesko, ssmith, jelsayed, abetzel, jsilvers</p>
-
-                <h2>Scoreboard</h2>
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Rank</th>
-                            <th scope="col">Username</th>
-                            <th scope="col">Score</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <a href="#">
-                                <td>nchesko</td>
-                            </a>
-                            <td>68</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">2</th>
-                            <a href="#">
-                                <td>jsilvers</td>
-                            </a>
-                            <td>70</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">3</th>
-                            <a href="#">
-                                <td>ssmith</td>
-                            </a>
-                            <td>71</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">4</th>
-                            <a href="#">
-                                <td>abetzel</td>
-                            </a>
-                            <td>72</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">5</th>
-                            <a href="#">
-                                <td>jelsayed</td>
-                            </a>
-                            <td>74</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <p class="players">
+                    <span v-for="user in users" :key="user.id"> {{ user }}</span>
+                </p>
+                <label for="username"></label>
+                <div><input v-model="username" class="form-control" type="text" placeholder="username" /></div>
+                <button @click="invitePlayers" class="btn btn-primary">Invite Players</button>
             </div>
+            <div class="col-6">
+                <scoreboard />
+            </div>
+        </div>
+        <div class="row matches div col-12">
+            <league-matches />
         </div>
     </div>
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+import Scoreboard from "./Scoreboard.vue";
+import LeagueMatches from "./LeagueMatches.vue";
+
+export default {
+    components: { Scoreboard, LeagueMatches },
+    data() {
+        return {
+            league: {},
+            courseName: "",
+            users: [],
+            username: ""
+        };
+    },
+    mounted() {
+        const leagueID = this.$route.params.id;
+        axios
+            .get(`/api/league/${leagueID}`)
+            .then((response) => {
+                this.league = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        axios
+            .get(`/api/course/league/${leagueID}`)
+            .then((response) => {
+                this.courseName = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        axios
+            .get(`/api/league/${leagueID}/user`)
+            .then((response) => {
+                this.users = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    },
+    methods: {
+        invitePlayers() {
+            const leagueID = this.$route.params.id;
+            const playerID = this.username;
+            axios
+                .get(`/api/user/${playerID}`)
+                .then((response) => {
+                    const playerID = response.data;
+                    axios
+                        .post(
+                            "/api/invitations",
+                            { leagueID, playerID },
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${this.$store.state.token}`
+                                }
+                            }
+                        )
+                        .then((response) => {
+                            console.log(response.data);
+                        })
+                        .catch((error) => {
+                            console.log(error);
+                        });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }
+};
 </script>
 
 <style scoped>
@@ -75,7 +109,7 @@ export default {};
     border-radius: 5px;
     margin-top: 20px;
     margin-bottom: 20px;
-    width: 500px;
+    width: 1000px;
 }
 
 .description {
@@ -83,7 +117,7 @@ export default {};
 }
 
 h1 {
-    margin-top: 20px;
+    margin-top: 10px;
     margin-bottom: 20px;
     width: 475px;
 }
@@ -105,5 +139,9 @@ h2 {
 
 tr {
     border-bottom: 2px solid #e9ecef;
+}
+
+.form-control {
+    width: 75%;
 }
 </style>
