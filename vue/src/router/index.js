@@ -65,14 +65,20 @@ const router = new Router({
             }
         },
         {
-            path: "/league",
+            path: "/league/:id",
             name: "league",
-            component: League
+            component: League,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/profile",
             name: "profile",
-            component: Profile
+            component: Profile,
+            meta: {
+                requiresAuth: true
+            }
         }
     ]
 });
