@@ -55,7 +55,7 @@ public class LeagueController {
         return leagueDao.getLeaguesByUserID(id);
     }
 
-    @GetMapping("/api/league/{id}")
+    @GetMapping("/api/league/{id}/user")
     public List<String> getUsersForLeague(@PathVariable int id) {
         return leagueDao.getUsersForLeague(id);
 
@@ -74,6 +74,11 @@ public class LeagueController {
             return leagueDao.removePlayer(leagueID, userID);
         }
         return false;
+    }
+
+    @GetMapping ("api/league/{leagueID}")
+    public League getLeagueByLeagueId (@PathVariable int leagueID) {
+        return leagueDao.getLeagueByID(leagueID);
     }
 
 
