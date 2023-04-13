@@ -68,6 +68,14 @@ public class InvitationController {
         return null;
     }
 
+    @GetMapping("/api/invitations/{id}")
+    public List<Invitation> listInvitationsByUserID(@PathVariable int id, Principal p){
+        if (getFromPrincipal(p) == id) {
+            return invitationDao.listInvitationsByUserID(id);
+        }
+        return null;
+    }
+
 //    @RequestMapping(path = "/api/invitations/{id}" , method = RequestMethod.PUT)
 //    public Invitation rejectInvitation(@RequestBody Invitation i, @PathVariable int id){
 //
