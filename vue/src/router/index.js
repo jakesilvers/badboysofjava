@@ -59,7 +59,10 @@ const router = new Router({
         {
             path: "/create-league",
             name: "create-league",
-            component: CreateLeague
+            component: CreateLeague,
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: "/league",
