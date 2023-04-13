@@ -7,6 +7,7 @@ import Register from "../views/Register.vue";
 import store from "../store/index";
 import CreateLeague from "../views/CreateLeague";
 import League from "../views/League";
+import Profile from "../views/Profile";
 
 Vue.use(Router);
 
@@ -64,9 +65,17 @@ const router = new Router({
             }
         },
         {
-            path: "/league",
+            path: "/league/:id",
             name: "league",
             component: League,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/profile",
+            name: "profile",
+            component: Profile,
             meta: {
                 requiresAuth: true
             }

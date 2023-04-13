@@ -2,15 +2,18 @@
     <div class="container mx-auto">
         <div class="row">
             <div class="col-8">
-                <h1>BBOJ Super League</h1>
+                <h1>{{ league.leagueName }}</h1>
                 <p class="description">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga at eum repellat accusantium nisi excepturi necessitatibus! Iste quidem non
-                    quo, ab consequatur quibusdam nesciunt. Consequuntur, iure architecto. Facilis, placeat aliquam?
+                    {{ league.description }}
                 </p>
                 <p><strong>Course:</strong></p>
-                <p class="course"><em>Periopolis Country Club</em></p>
+                <p class="course">
+                    <em>{{ courseName }}</em>
+                </p>
                 <p><strong>Players:</strong></p>
-                <p class="players">nchesko, ssmith, jelsayed, abetzel, jsilvers</p>
+                <p class="players">
+                    <span v-for="user in users" :key="user.id"> {{ user }}</span>
+                </p>
 
                 <h2>Scoreboard</h2>
 
@@ -66,7 +69,43 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+    data() {
+        return {
+            league: {},
+            courseName: "",
+            users: []
+        };
+    },
+    mounted() {
+        const leagueID = this.$route.params.id;
+        axios
+            .get(`/api/league/${leagueID}`)
+            .then((response) => {
+                this.league = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        axios
+            .get(`/api/course/league/${leagueID}`)
+            .then((response) => {
+                this.courseName = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        axios
+            .get(`/api/league/${leagueID}/user`)
+            .then((response) => {
+                this.users = response.data;
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }
+};
 </script>
 
 <style scoped>

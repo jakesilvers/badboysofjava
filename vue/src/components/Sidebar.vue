@@ -2,12 +2,19 @@
     <nav class="navbar navbar-expand navbar-light bg-light">
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
+    
                 <a class="nav-item nav-link" href="#"> <router-link v-bind:to="{ name: 'home' }">Home</router-link></a>
                 <a href="#" class="nav-item nav-link"> <router-link v-bind:to="{ name: 'create-league' }">Create League</router-link></a>
                 <a href="#" class="nav-item nav-link"> <router-link v-bind:to="{ name: 'league' }">League View</router-link></a>
 
+
+
                 <a class="nav-item nav-link" href="#"> <router-link v-bind:to="{ name: 'logout' }" v-if="$store.state.token != ''">Logout</router-link></a>
             </div>
+            
+        </div>
+        <div> 
+                <a class="prof" href="#"> <router-link v-bind:to="{ name: 'profile' }">View Profile</router-link></a>
         </div>
     </nav>
 </template>
@@ -28,4 +35,11 @@ export default {};
   padding-right: 0.5rem;
   padding-left: 0.5rem;
 }
+
+.prof {
+    flex-direction: row;
+    margin-right: 0.5cm;
+}
+
+
 </style>
