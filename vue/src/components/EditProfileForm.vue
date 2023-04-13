@@ -2,12 +2,12 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <h1 class="mb-4">Create League</h1>
+                <h1 class="mb-4">Edit Profile</h1>
 
                 <form>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="leagueName">League name</label>
+                            <label for="leagueName">Player Name</label>
                             <input
                                 type="text"
                                 class="form-control"
@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="country">Course</label>
                             <select
@@ -47,9 +47,12 @@
                                 <option>Pound Town Par 3</option>
                             </select>
                         </div>
-                    </div>
+                    </div> -->
+
+                    
+                    
                     <button class="btn btn-primary btn block" type="submit">
-                        Create
+                        Update
                     </button>
                 </form>
             </div>
