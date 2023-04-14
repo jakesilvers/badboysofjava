@@ -1,5 +1,5 @@
 <template>
-    <div class="home">
+    <!-- <div class="home">
         <Sidebar />
 
         <div class="container">
@@ -13,20 +13,29 @@
                 </div>
             </div>
         </div>
+    </div> -->
+
+    <div>
+        <Navbar />
+        <div class="container mt-2">
+            <invite />
+            <div class="row">
+                <my-leagues />
+                <my-matches />
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-import UpcomingMatches from "../components/UpcomingMatches.vue";
+import MyMatches from "../components/MyMatches.vue";
 import MyLeagues from "../components/MyLeagues.vue";
-import Sidebar from "../components/Sidebar.vue";
+import Navbar from "../components/Navbar.vue";
 import Invite from "../components/Invite.vue";
 export default {
-    components: { Sidebar, MyLeagues, Invite, UpcomingMatches },
+    components: { Navbar, MyMatches, MyLeagues, Invite },
     name: "home"
 };
 </script>
 
-<style>
-@import "~bootstrap/dist/css/bootstrap.css";
-</style>
+<style scoped></style>

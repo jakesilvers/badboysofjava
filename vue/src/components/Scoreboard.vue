@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card-body">
         <h1>Scoreboard</h1>
 
         <table class="table">
@@ -8,6 +8,8 @@
                     <th scope="col">Rank</th>
                     <th scope="col">Username</th>
                     <th scope="col">Wins</th>
+                    <th scope="col">Draws</th>
+
                     <th scope="col">Losses</th>
                 </tr>
             </thead>
@@ -17,11 +19,13 @@
                     <td>nchesko</td>
                     <td>3</td>
                     <td>1</td>
+                    <td>1</td>
                 </tr>
                 <tr>
                     <th scope="row">2</th>
                     <td>nchesko</td>
                     <td>3</td>
+                    <td>1</td>
                     <td>1</td>
                 </tr>
                 <tr>
@@ -29,11 +33,27 @@
                     <td>nchesko</td>
                     <td>3</td>
                     <td>1</td>
+                    <td>1</td>
                 </tr>
                 <tr>
                     <th scope="row">4</th>
                     <td>nchesko</td>
                     <td>3</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>nchesko</td>
+                    <td>3</td>
+                    <td>1</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td>nchesko</td>
+                    <td>3</td>
+                    <td>1</td>
                     <td>1</td>
                 </tr>
             </tbody>
@@ -46,40 +66,7 @@ export default {};
 </script>
 
 <style scoped>
-.container {
-    background-color: white;
-    border-radius: 5px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 500px;
-}
-
-.description {
-    width: 475px;
-}
-
-h1 {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    width: 475px;
-}
-
-.table {
-    width: 475px;
-    max-width: 475px;
-}
-
-.course,
-.players {
-    margin-top: -10px;
-}
-
-h2 {
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-tr {
-    border-bottom: 2px solid #e9ecef;
+.card-body {
+    height: 424px;
 }
 </style>
