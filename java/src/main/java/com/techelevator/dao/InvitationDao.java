@@ -13,5 +13,7 @@ public interface InvitationDao {
 
     List<Invitation> listInvitationsByUserID(int userID);
 
+    String getUserNameOfAdminOfLeague(int invitationID);
+
 
 }

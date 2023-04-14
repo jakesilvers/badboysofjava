@@ -81,6 +81,19 @@ public class JdbcInvitationDao implements InvitationDao{
 
     }
 
+    @Override
+    public String getUserNameOfAdminOfLeague(int invitationID) {
+        String sql = "SELECT username FROM user JOIN league ON users.user_id = league.admin_id " +
+                "JOIN invitations ON league.league_id = invitations.league_id WHERE " +
+                "invitation_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, invitationID);
+
+        String username = results.getString("username");
+
+        return username;
+
+    }
+
     public Invitation mapRowToInvitation(SqlRowSet rs) {
         Invitation i = new Invitation();
 
