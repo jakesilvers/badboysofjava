@@ -89,14 +89,28 @@ create table invitations(
 commit;
 
 start transaction;
+create table record(
+	record_id serial primary key,
+	player_id int,
+	league_id int,
+	match_id int,
+	win int,
+	loss int,
+	draw int,
+	
+	constraint league_id foreign key (league_id) references league (league_id),
+	constraint player_id foreign key (player_id) references users (user_id),
+	constraint match_id foreign key (match_id) references match (match_id)
+);
+commit;
+
+start transaction;
 alter table course drop column location_lat;
 commit;
 
 start transaction;
 alter table course drop column location_long;
 commit;
-
---fuck it
 
 select * from course;
 
@@ -108,4 +122,8 @@ insert into course values (default, 'North Park Par 3', '2 Windmere Rd', 'Pittsb
 insert into course values (default, 'South Park', '3 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'Wildwood Golf Club', '101 Wildmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'Augusta National', '300 Masters Lane', 'Augusta', 'Georgia', 'United States');
+commit;
+
+start transaction;
+ALTER TABLE score_card RENAME TO scorecard;
 commit;

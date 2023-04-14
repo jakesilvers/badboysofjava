@@ -10,12 +10,12 @@ public interface ScoreCardDao {
 
     int createScoreCard(ScoreCard s);
 
-    int getAverage(User u);
+    int getAverage(int userId);
 
-    List<ScoreCard> showAllScoreCardsForUser(User u);
+    List<ScoreCard> showAllScoreCardsForUser(int userID);
 
-    void UpdateScores(Principal principal, User u);
+    List<ScoreCard> getScoreCardsByMatchID(int matchID);
 
 
-
+    ScoreCard getScoreCardID(int scoreCardID);
 }
