@@ -123,3 +123,7 @@ insert into course values (default, 'South Park', '3 Windmere Rd', 'Pittsburgh',
 insert into course values (default, 'Wildwood Golf Club', '101 Wildmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'Augusta National', '300 Masters Lane', 'Augusta', 'Georgia', 'United States');
 commit;
+
+start transaction;
+ALTER TABLE score_card RENAME TO scorecard;
+commit;
