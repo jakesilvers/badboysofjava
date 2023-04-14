@@ -4,6 +4,7 @@ import com.techelevator.model.Invitation;
 import com.techelevator.model.League;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
 import static com.techelevator.model.Invitation.*;
 
 @Component
-public class JdbcInvitationDao implements InvitationDao{
+public class JdbcInvitationDao implements InvitationDao {
 
     private JdbcTemplate jdbcTemplate;
     private JdbcLeagueDao jdbcLeagueDao;
@@ -28,7 +29,7 @@ public class JdbcInvitationDao implements InvitationDao{
 
         int invitationID;
 
-        String sql= "INSERT INTO invitations (league_id, player_id, invitation_status) " +
+        String sql = "INSERT INTO invitations (league_id, player_id, invitation_status) " +
                 "VALUES (?, ?, ?) RETURNING invitation_id;";
 
         try {
@@ -72,7 +73,7 @@ public class JdbcInvitationDao implements InvitationDao{
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userID);
 
-        while(results.next()) {
+        while (results.next()) {
             Invitation i = mapRowToInvitation(results);
             usersInvitations.add(i);
         }
@@ -83,14 +84,18 @@ public class JdbcInvitationDao implements InvitationDao{
 
     @Override
     public String getUserNameOfAdminOfLeague(int invitationID) {
-        String sql = "SELECT username FROM user JOIN league ON users.user_id = league.admin_id " +
+        String sql = "SELECT username FROM users JOIN league ON users.user_id = league.admin_id " +
                 "JOIN invitations ON league.league_id = invitations.league_id WHERE " +
                 "invitation_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, invitationID);
 
-        String username = results.getString("username");
+        if (results.next()) {
+            String username = mapRowToUsername(results);
+            return username;
+        }
 
-        return username;
+        return null;
+
 
     }
 
@@ -103,5 +108,10 @@ public class JdbcInvitationDao implements InvitationDao{
         i.setInvitationStatus(rs.getString("invitation_status"));
 
         return i;
+    }
+
+    public String mapRowToUsername(SqlRowSet rs) {
+        String username = rs.getString("username");
+        return username;
     }
 }
