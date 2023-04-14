@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import Sidebar from "../components/Sidebar.vue";
+import Sidebar from "../components/Navbar.vue";
 import NewLeagueForm from "../components/NewLeagueForm.vue";
 export default {
     components: {

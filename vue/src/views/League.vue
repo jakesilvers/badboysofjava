@@ -1,21 +1,19 @@
 <template>
     <div>
-        <sidebar />
+        <Navbar />
         <league-view />
     </div>
 </template>
 
 <script>
 import LeagueView from "../components/LeagueView.vue";
-import Sidebar from "../components/Sidebar.vue";
+import Navbar from "../components/Navbar.vue";
 export default {
     components: {
-        LeagueView,
-        Sidebar
+        Navbar,
+        LeagueView
     }
 };
-
-Sidebar;
 </script>
 
-<style></style>
+<style scoped></style>

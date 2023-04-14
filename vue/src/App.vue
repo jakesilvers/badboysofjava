@@ -6,12 +6,11 @@
 
         <router-view />
     </div>
-
-    
-
 </template>
 
 <style>
+
+
 #nav {
     text-align: center;
     margin-top: 30px;
