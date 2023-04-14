@@ -7,12 +7,12 @@ public class ScoreCard {
     private int playerID;
     private int scoreValue;
 
-    public ScoreCard(int scoreCardID, int matchID, int playerID, int scoreValue) {
-        this.scoreCardID = scoreCardID;
-        this.matchID = matchID;
-        this.playerID = playerID;
-        this.scoreValue = scoreValue;
-    }
+//    public ScoreCard(int scoreCardID, int matchID, int playerID, int scoreValue) {
+//        this.scoreCardID = scoreCardID;
+//        this.matchID = matchID;
+//        this.playerID = playerID;
+//        this.scoreValue = scoreValue;
+//    }
 
     public int getScoreCardID() {
         return scoreCardID;
