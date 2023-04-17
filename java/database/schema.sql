@@ -1,6 +1,6 @@
-start transaction;
 
---DROP TABLE IF EXISTS users, course, league, league_player, match, match_player, scoretable, invitations, record;
+BEGIN TRANSACTION;
+DROP TABLE IF EXISTS users, course, league, league_player, match, match_player, scoretable, invitations, record;
 
 CREATE TABLE users (
 	user_id SERIAL,
@@ -44,7 +44,7 @@ create table league_player(
 create table match(
 	match_id serial primary key,
 	league_id int,
-	start_time timestamp not null,
+	start_time varchar (30) not null,
 	is_completed boolean not null,
 	
 	constraint league_id foreign key (league_id) references league (league_id)
@@ -86,59 +86,55 @@ create table record(
 	loss int,
 	
 	constraint league_id foreign key (league_id) references league (league_id),
-	constraint player_id foreign key (player_id) references users (user_id),
-	constraint match_id foreign key (match_id) references match (match_id)
+	constraint player_id foreign key (player_id) references users (user_id)
 );
-commit;
+
 -----------------------------------------------------------------------------------------
-start transaction;
+
 insert into course values (default, 'Shannopin Country Club', '1 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
-commit;
-start transaction;
+
+
 insert into course values (default, 'North Park Par 3', '2 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'South Park', '3 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'Wildwood Golf Club', '101 Wildmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'Augusta National', '300 Masters Lane', 'Augusta', 'Georgia', 'United States');
-commit;
 
-start transaction;
+
+
 insert into users values (default, 'nickchesko', 'boner', 'ROLE_ADMIN');
 insert into users values (default, 'samsmith', 'boner', 'ROLE_USER');
 insert into users values (default, 'jakesilvers', 'bonerchamp', 'ROLE_USER');
-commit;
 
-start transaction;
+
+
 insert into league values (default, 'bboj2', 'bboj2', 1, 9);
-commit;
+
 
 select * from league;
 
-start transaction;
+
 insert into league_player values (6, 10);
-commit;
+
 
 select * from match_player;
 
-start transaction;
-insert into match values (default, 6, '2023-05-01 17:00:00', false);
-commit;
 
-start transaction;
+insert into match values (default, 6, '2023-05-01 17:00:00', false);
+
+
+
 insert into match_player values (3, 10);
 insert into match_player values (3, 9);
-commit;
 
-start transaction;
+
+
 insert into invitations values (default, 6, 9, 'pending');
-commit;
-start transaction;
+
+
 insert into scorecard values (default, 3, 10, 69);
 insert into record values (default, 10, 6, 1, 0);
-commit;
 
 
-start transaction;
-ALTER TABLE match ALTER COLUMN start_time TYPE varchar (30); 
-commit;
 
-select * from match;
+
+COMMIT;
