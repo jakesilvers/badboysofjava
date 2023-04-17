@@ -70,7 +70,7 @@ public class JdbcMatchDao  implements MatchDao{
 
         m.setMatchID(rs.getInt("match_id"));
         m.setLeagueID(rs.getInt("league_id"));
-        m.setStartTime(rs.getTime("start_time"));
+        m.setStartTime(rs.getString("start_time"));
         m.setCompleted(rs.getBoolean("is_completed"));
 
         return m;

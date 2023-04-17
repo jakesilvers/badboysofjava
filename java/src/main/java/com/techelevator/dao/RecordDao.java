@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface RecordDao {
 
-    int createRecord(Record r, int playedID, int leagueID);
+    int createRecord(int playedID, int leagueID);
 
-    boolean updateRecord(int matchID);
+    boolean updateRecord(int matchID, int playerID1, int playerID2);
 
     List<Record> getRecordsForUser(int userID);
 

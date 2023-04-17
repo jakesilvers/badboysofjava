@@ -1,5 +1,7 @@
 package com.techelevator.model;
 
+import org.springframework.cglib.core.Local;
+
 import java.sql.Time;
 import java.time.LocalDateTime;
 
@@ -7,7 +9,7 @@ public class Match {
 
     private int matchID;
     private int leagueID;
-    private Time startTime;
+    private String startTime;
     private boolean isCompleted;
 
 //    public Match(int matchID, int leagueID, LocalDateTime startTime, LocalDateTime endTime, boolean isCompleted) {
@@ -34,11 +36,11 @@ public class Match {
         this.leagueID = leagueID;
     }
 
-    public Time getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 
