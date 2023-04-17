@@ -92,47 +92,12 @@ create table record(
 -----------------------------------------------------------------------------------------
 
 insert into course values (default, 'Shannopin Country Club', '1 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
-
-
 insert into course values (default, 'North Park Par 3', '2 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'South Park', '3 Windmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'Wildwood Golf Club', '101 Wildmere Rd', 'Pittsburgh', 'Pennsylvania', 'United States');
 insert into course values (default, 'Augusta National', '300 Masters Lane', 'Augusta', 'Georgia', 'United States');
 
 
-
-insert into users values (default, 'nickchesko', 'boner', 'ROLE_ADMIN');
-insert into users values (default, 'samsmith', 'boner', 'ROLE_USER');
-insert into users values (default, 'jakesilvers', 'bonerchamp', 'ROLE_USER');
-
-
-
-insert into league values (default, 'bboj2', 'bboj2', 1, 9);
-
-
-select * from league;
-
-
-insert into league_player values (6, 10);
-
-
-select * from match_player;
-
-
-insert into match values (default, 6, '2023-05-01 17:00:00', false);
-
-
-
-insert into match_player values (3, 10);
-insert into match_player values (3, 9);
-
-
-
-insert into invitations values (default, 6, 9, 'pending');
-
-
-insert into scorecard values (default, 3, 10, 69);
-insert into record values (default, 10, 6, 1, 0);
 
 
 
