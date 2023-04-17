@@ -132,3 +132,6 @@ start transaction;
 alter table record drop column draw;
 commit;
 
+start transaction;
+alter table record drop column match_id;
+commit;
