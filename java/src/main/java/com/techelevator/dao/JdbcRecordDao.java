@@ -18,19 +18,29 @@ public class JdbcRecordDao implements RecordDao{
 
 
     @Override
-    public int createRecord(Record r, int playerID, int leagueID) {
-        String sql = "INSERT INTO record (played_id, league_id, win, loss) " +
+    public int createRecord(int playerID, int leagueID) {
+        String sql = "INSERT INTO record (player_id, league_id, win, loss) " +
                 "VALUES(?, ?, ?, ?) RETURNING record_id;";
         int recordID;
 
-
-
-
-        return 0;
+        try  {
+            recordID = jdbcTemplate.queryForObject(sql, int.class, playerID, leagueID, 0, 0);
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Unable to create Record");
+        }
+        return recordID;
     }
 
     @Override
-    public boolean updateRecord(int matchID) {
+    public boolean updateRecord(int matchID, int playerID1, int playerID2) {
+
+
+
+
+
+
+
+
         return false;
     }
 

@@ -17,10 +17,12 @@ public class JdbcInvitationDao implements InvitationDao {
 
     private JdbcTemplate jdbcTemplate;
     private JdbcLeagueDao jdbcLeagueDao;
+    private JdbcRecordDao jdbcRecordDao;
 
-    public JdbcInvitationDao(JdbcTemplate jdbcTemplate, JdbcLeagueDao jdbcLeagueDao) {
+    public JdbcInvitationDao(JdbcTemplate jdbcTemplate, JdbcLeagueDao jdbcLeagueDao, JdbcRecordDao jdbcRecordDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.jdbcLeagueDao = jdbcLeagueDao;
+        this.jdbcRecordDao = jdbcRecordDao;
     }
 
 
@@ -48,6 +50,7 @@ public class JdbcInvitationDao implements InvitationDao {
         if (i.getInvitationStatus().equals(INVITATION_STATUS_APPROVED)) {
             jdbcTemplate.update(sql, INVITATION_STATUS_APPROVED, id);
             jdbcLeagueDao.addUserIntoLeaguePlayer(id, i.getPlayerID());
+            jdbcRecordDao.createRecord(i.getPlayerID(), i.getLeagueID());
 
         }
         if (i.getInvitationStatus().equals(INVITATION_STATUS_REJECTED)) {
