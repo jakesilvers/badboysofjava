@@ -1,8 +1,9 @@
 <template>
-    <div class="container mx-auto">
-        <div class="row">
-            <div class="col-8">
-                <h1>My Leagues</h1>
+    <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">My Leagues</h5>
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -23,6 +24,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <button class="btn btn-primary">
+                    <router-link v-bind:to="{ name: 'create-league' }">Create New League</router-link>
+                </button>
             </div>
         </div>
     </div>
@@ -65,24 +69,25 @@ export default {
 </script>
 
 <style scoped>
-.container {
-    background-color: white;
-    border-radius: 5px;
-    margin-top: 20px;
-    width: 500px;
+button a {
+    color: white !important;
+    text-decoration: none;
+}
+td {
+    color: black !important;
 }
 
-h1 {
-    margin-top: 20px;
-    margin-bottom: 20px;
+a {
+    color: #16a34a;
 }
 
-.table {
-    width: 475px;
-    max-width: 475px;
+button {
+    background-color: #4ade80;
+    border: 1px solid #22c55e;
 }
 
-tr {
-    border-bottom: 2px solid #e9ecef;
+button:hover {
+    background-color: #16a34a;
+    border: 1px solid #166534;
 }
 </style>

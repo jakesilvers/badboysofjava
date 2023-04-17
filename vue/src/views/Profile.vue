@@ -7,7 +7,7 @@
 
 <script>
 
-import Sidebar from "../components/Sidebar.vue";
+import Sidebar from "../components/Navbar.vue";
 import EditProfileForm from "../components/EditProfileForm.vue";
 export default {
     components: { 
