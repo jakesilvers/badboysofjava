@@ -22,6 +22,10 @@ public class CourseController {
     @GetMapping("/api/{courseName}")
     public Course getCourse (@PathVariable String courseName){
 
+        if (courseName.contains(" ")){
+            courseName.replace(" ", "%20");
+        }
+
         return courseDao.getCourse(courseName);
     }
     @GetMapping("/api/courses")

@@ -26,5 +26,4 @@ public interface LeagueDao {
 
     League getLeagueByID(int leagueID);
 
-
 }
