@@ -24,7 +24,7 @@ public class JdbcMatchDao  implements MatchDao{
     public List<String> showUsersInMatch(int matchID) {
         List<String> matchPlayers = new ArrayList<>();
 
-        String sql = "SELECT username FROM users JOIN match_player ON user.user_id = match_player.player_id " +
+        String sql = "SELECT username FROM users JOIN match_player ON users.user_id = match_player.player_id " +
                 "WHERE match_id = ? ;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);

@@ -21,7 +21,7 @@ a {
     color: white !important;
 }
 img {
-    width: 50%;
+    width: 800px;
 }
 .navbar {
     background-color: #4ade80 !important;
