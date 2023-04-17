@@ -40,7 +40,7 @@ public class JdbcMatchDao  implements MatchDao{
     public int createMatch(Match m) {
         int matchID;
 
-        String sql = "INSERT INTO match (league_id, start_time, is_completed " +
+        String sql = "INSERT INTO match (league_id, start_time, is_completed) " +
                 "VALUES (?, ?, ?) RETURNING match_id;";
         try{
             matchID = jdbcTemplate.queryForObject(sql, int.class, m.getLeagueID(), m.getStartTime(), m.isCompleted() );
@@ -108,6 +108,23 @@ public class JdbcMatchDao  implements MatchDao{
         }
 
         return null;
+
+    }
+
+    @Override
+    public List<Match> getMatchesByLeagueID(int leagueID) {
+        List<Match> matchList = new ArrayList<>();
+
+        String sql = "SELECT * FROM match WHERE league_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, leagueID);
+
+        while(results.next()) {
+            Match m = mapRowToMatch(results);
+            matchList.add(m);
+        }
+
+        return matchList;
 
     }
 
