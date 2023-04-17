@@ -1,7 +1,7 @@
 <template>
     <header class="navbar navbar-dark sticky-top flex-md-nowrap p-0 shadow">
         <router-link v-bind:to="{ name: 'home' }">
-            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"><img src="logo.png" alt="" /></a>
+            <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6" href="#"><img src="/logo.png" alt="" /></a>
         </router-link>
 
         <div class="navbar-nav">
@@ -20,6 +20,7 @@ export default {};
 a {
     color: white !important;
 }
+
 img {
     width: 50%;
 }

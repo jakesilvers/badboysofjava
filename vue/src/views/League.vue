@@ -3,11 +3,12 @@
         <Navbar />
         <league-view />
     </div>
+    
 </template>
 
 <script>
-import LeagueView from "../components/LeagueView.vue";
 import Navbar from "../components/Navbar.vue";
+import LeagueView from "../components/LeagueView.vue";
 export default {
     components: {
         Navbar,
@@ -16,4 +17,4 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style></style>
