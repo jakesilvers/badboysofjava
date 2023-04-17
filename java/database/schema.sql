@@ -127,3 +127,8 @@ commit;
 start transaction;
 ALTER TABLE score_card RENAME TO scorecard;
 commit;
+
+start transaction;
+alter table record drop column draw;
+commit;
+
