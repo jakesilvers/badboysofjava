@@ -1,4 +1,5 @@
 <template>
+   
     <div class="container mx-auto mt-2">
         <div class="row">
             <div class="col-6">
@@ -13,12 +14,15 @@
             </div>
         </div>
     </div>
+    
 </template>
 
 <script>
 import axios from "axios";
-import LeagueInfo from "./LeagueInfo.vue";
-import Scoreboard from "./Scoreboard.vue";
+import LeagueInfo from "../components/LeagueInfo.vue";
+import Scoreboard from "../components/Scoreboard.vue";
+
+
 
 export default {
     components: { Scoreboard, LeagueInfo },

@@ -1,16 +1,16 @@
 <template>
     <div>
-        <sidebar />
+        <Navbar />
         <new-league-form />
     </div>
 </template>
 
 <script>
-import Sidebar from "../components/Navbar.vue";
+import Navbar from "../components/Navbar.vue";
 import NewLeagueForm from "../components/NewLeagueForm.vue";
 export default {
     components: {
-        Sidebar,
+        Navbar,
         NewLeagueForm
     }
 };
