@@ -11,15 +11,18 @@ import java.util.List;
 public class JdbcRecordDao implements RecordDao{
 
     private JdbcTemplate jdbcTemplate;
+
+    private JdbcRecordDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+
     @Override
     public int createRecord(Record r, int playerID, int leagueID) {
         String sql = "INSERT INTO record (played_id, league_id, win, loss) " +
                 "VALUES(?, ?, ?, ?) RETURNING record_id;";
         int recordID;
 
-        try {
-            recordID =
-        }
 
 
 
