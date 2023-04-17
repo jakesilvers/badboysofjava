@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ScoreCardDao {
 
-    int createScoreCard(ScoreCard s);
+    int createScoreCard(int matchID, int userID);
 
     int getAverage(int userId);
 
@@ -16,6 +16,7 @@ public interface ScoreCardDao {
 
     List<ScoreCard> getScoreCardsByMatchID(int matchID);
 
+    boolean updateScore(int matchID, int userID, int score);
 
     ScoreCard getScoreCardID(int scoreCardID);
 }

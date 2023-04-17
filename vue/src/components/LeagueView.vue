@@ -13,19 +13,25 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="card">
+                    <league-matches />
+                </div>
+            </div>
+        </div>
     </div>
     
 </template>
 
 <script>
 import axios from "axios";
-import LeagueInfo from "../components/LeagueInfo.vue";
-import Scoreboard from "../components/Scoreboard.vue";
-
-
+import LeagueInfo from "./LeagueInfo.vue";
+import Scoreboard from "./Scoreboard.vue";
+import LeagueMatches from "./LeagueMatches.vue";
 
 export default {
-    components: { Scoreboard, LeagueInfo },
+    components: { Scoreboard, LeagueInfo, LeagueMatches },
     data() {
         return {
             league: {},

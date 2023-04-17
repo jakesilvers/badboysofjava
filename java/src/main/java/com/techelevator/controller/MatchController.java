@@ -84,5 +84,34 @@ public class MatchController {
 
     }
 
+    @RequestMapping(path = "api/match/{matchID}", method = RequestMethod.PUT)
+    public boolean endMatch(@RequestBody Match m, @PathVariable int matchID, Principal p) {
+        m = matchDao.getMatchByID(matchID);
+        int leagueID = m.getLeagueID();
+        League l = leagueDao.getLeagueByID(leagueID);
+        int adminID = l.getAdminID();
+
+        if (adminID == getFromPrincipal(p)) {
+            return matchDao.endMatch(matchID);
+        }
+        return false;
+
+    }
+
+    @RequestMapping(path = "api/league/{leagueID}/match", method = RequestMethod.GET)
+    public List<Match> getMatchesByLeagueID(@PathVariable int leagueID) {
+        return matchDao.getMatchesByLeagueID(leagueID);
+    }
+
+    @RequestMapping(path = "api/league/match/{matchID}", method = RequestMethod.GET)
+    public League getLeagueByMatchID(@PathVariable int matchID) {
+        return matchDao.getLeagueByMatchID(matchID);
+    }
+
+    @RequestMapping(path  = "api/course/league/{matchID}", method = RequestMethod.GET)
+    public String getCourseByMatchID(@PathVariable int matchID) {
+        return matchDao.getCourseByMatchID(matchID);
+    }
+
 
 }

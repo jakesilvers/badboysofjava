@@ -1,5 +1,7 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.Course;
+import com.techelevator.model.League;
 import com.techelevator.model.Match;
 import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,9 +16,12 @@ import java.util.List;
 @Component
 public class JdbcMatchDao  implements MatchDao{
     private JdbcTemplate jdbcTemplate;
+    private ScoreCardDao scoreCardDao;
 
-    public JdbcMatchDao(JdbcTemplate jdbcTemplate) {
+
+    public JdbcMatchDao(JdbcTemplate jdbcTemplate, ScoreCardDao scoreCardDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.scoreCardDao = scoreCardDao;
     }
 
 
@@ -40,7 +45,7 @@ public class JdbcMatchDao  implements MatchDao{
     public int createMatch(Match m) {
         int matchID;
 
-        String sql = "INSERT INTO match (league_id, start_time, is_completed " +
+        String sql = "INSERT INTO match (league_id, start_time, is_completed) " +
                 "VALUES (?, ?, ?) RETURNING match_id;";
         try{
             matchID = jdbcTemplate.queryForObject(sql, int.class, m.getLeagueID(), m.getStartTime(), m.isCompleted() );
@@ -70,7 +75,7 @@ public class JdbcMatchDao  implements MatchDao{
 
         m.setMatchID(rs.getInt("match_id"));
         m.setLeagueID(rs.getInt("league_id"));
-        m.setStartTime(rs.getTime("start_time"));
+        m.setStartTime(rs.getString("start_time"));
         m.setCompleted(rs.getBoolean("is_completed"));
 
         return m;
@@ -89,6 +94,8 @@ public class JdbcMatchDao  implements MatchDao{
         } catch (NullPointerException e) {
             throw new NullPointerException("Unable to add user to match");
         }
+
+        scoreCardDao.createScoreCard(matchID, userID);
 
         return success > 0;
 
@@ -110,6 +117,72 @@ public class JdbcMatchDao  implements MatchDao{
         return null;
 
     }
+
+    @Override
+    public List<Match> getMatchesByLeagueID(int leagueID) {
+        List<Match> matchList = new ArrayList<>();
+
+        String sql = "SELECT * FROM match WHERE league_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, leagueID);
+
+        while(results.next()) {
+            Match m = mapRowToMatch(results);
+            matchList.add(m);
+        }
+
+        return matchList;
+
+    }
+
+    @Override
+    public int getLeagueIDByMatchID(int matchID) {
+        String sql = "SELECT league_id FROM match WHERE match_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+
+        if (results.next()) {
+            return results.getInt("league_id");
+        }
+
+        return 0;
+
+    }
+
+    @Override
+    public League getLeagueByMatchID(int matchID) {
+        String sql = "SELECT league_id, league_name FROM league JOIN league.league_id ON match.league_id WHERE match_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+
+        if (results.next()) {
+            League l = new League();
+            l.setLeagueID(results.getInt("league_id"));
+            l.setLeagueName(results.getString("league_name"));
+            return l;
+        }
+        return null;
+    }
+
+    @Override
+    public String getCourseByMatchID(int matchID) {
+        String sql = "SELECT course_name FROM course JOIN league ON course.course_id " +
+                "= league.course_id JOIN match ON league.league_id = match.league_id " +
+                "WHERE match_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+
+        if (results.next()) {
+            return results.getString("course_name");
+        }
+
+        return null;
+
+    }
+
+
+
+
 
     private User mapRowToUser(SqlRowSet rs) {
         User u = new User();

@@ -22,7 +22,7 @@ a {
 }
 
 img {
-    width: 30%;
+    width: 50%;
 }
 .navbar {
     background-color: #4ade80 !important;

@@ -4,6 +4,7 @@ import com.techelevator.model.Invitation;
 import com.techelevator.model.League;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,14 +13,16 @@ import java.util.List;
 import static com.techelevator.model.Invitation.*;
 
 @Component
-public class JdbcInvitationDao implements InvitationDao{
+public class JdbcInvitationDao implements InvitationDao {
 
     private JdbcTemplate jdbcTemplate;
     private JdbcLeagueDao jdbcLeagueDao;
+    private JdbcRecordDao jdbcRecordDao;
 
-    public JdbcInvitationDao(JdbcTemplate jdbcTemplate, JdbcLeagueDao jdbcLeagueDao) {
+    public JdbcInvitationDao(JdbcTemplate jdbcTemplate, JdbcLeagueDao jdbcLeagueDao, JdbcRecordDao jdbcRecordDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.jdbcLeagueDao = jdbcLeagueDao;
+        this.jdbcRecordDao = jdbcRecordDao;
     }
 
 
@@ -28,7 +31,7 @@ public class JdbcInvitationDao implements InvitationDao{
 
         int invitationID;
 
-        String sql= "INSERT INTO invitations (league_id, player_id, invitation_status) " +
+        String sql = "INSERT INTO invitations (league_id, player_id, invitation_status) " +
                 "VALUES (?, ?, ?) RETURNING invitation_id;";
 
         try {
@@ -47,6 +50,7 @@ public class JdbcInvitationDao implements InvitationDao{
         if (i.getInvitationStatus().equals(INVITATION_STATUS_APPROVED)) {
             jdbcTemplate.update(sql, INVITATION_STATUS_APPROVED, id);
             jdbcLeagueDao.addUserIntoLeaguePlayer(id, i.getPlayerID());
+            jdbcRecordDao.createRecord(i.getPlayerID(), i.getLeagueID());
 
         }
         if (i.getInvitationStatus().equals(INVITATION_STATUS_REJECTED)) {
@@ -72,12 +76,29 @@ public class JdbcInvitationDao implements InvitationDao{
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userID);
 
-        while(results.next()) {
+        while (results.next()) {
             Invitation i = mapRowToInvitation(results);
             usersInvitations.add(i);
         }
 
         return usersInvitations;
+
+    }
+
+    @Override
+    public String getUserNameOfAdminOfLeague(int invitationID) {
+        String sql = "SELECT username FROM users JOIN league ON users.user_id = league.admin_id " +
+                "JOIN invitations ON league.league_id = invitations.league_id WHERE " +
+                "invitation_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, invitationID);
+
+        if (results.next()) {
+            String username = mapRowToUsername(results);
+            return username;
+        }
+
+        return null;
+
 
     }
 
@@ -90,5 +111,10 @@ public class JdbcInvitationDao implements InvitationDao{
         i.setInvitationStatus(rs.getString("invitation_status"));
 
         return i;
+    }
+
+    public String mapRowToUsername(SqlRowSet rs) {
+        String username = rs.getString("username");
+        return username;
     }
 }

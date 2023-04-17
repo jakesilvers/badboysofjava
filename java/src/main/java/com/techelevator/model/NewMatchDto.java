@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 public class NewMatchDto {
     private int leagueID;
-    private Time startTime;
+    private String startTime;
     private boolean isCompleted;
 
     public int getLeagueID() {
@@ -16,11 +16,11 @@ public class NewMatchDto {
         this.leagueID = leagueID;
     }
 
-    public Time getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
 

@@ -76,6 +76,13 @@ public class InvitationController {
         return null;
     }
 
+
+    @GetMapping("/api/invitations/{id}/admin")
+    public String getUserNameOfAdminOfLeague(@PathVariable int id) {
+        return invitationDao.getUserNameOfAdminOfLeague(id);
+
+    }
+
 //    @RequestMapping(path = "/api/invitations/{id}" , method = RequestMethod.PUT)
 //    public Invitation rejectInvitation(@RequestBody Invitation i, @PathVariable int id){
 //

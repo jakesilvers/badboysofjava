@@ -1,5 +1,7 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.Course;
+import com.techelevator.model.League;
 import com.techelevator.model.User;
 import com.techelevator.model.Match;
 
@@ -19,6 +21,14 @@ public interface MatchDao {
     boolean addUserToMatch(int matchID, int userID);
 
     Match getMatchByID(int matchID);
+
+    List<Match> getMatchesByLeagueID(int leagueID);
+
+    int getLeagueIDByMatchID(int matchID);
+
+    League getLeagueByMatchID(int matchID);
+
+    String getCourseByMatchID(int matchID);
 
 
 }

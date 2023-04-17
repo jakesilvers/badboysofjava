@@ -6,7 +6,7 @@
                     <div class="row">
                         <div class="col-8">
                             <h6 class="mb-0">{{ invite.leagueName }}</h6>
-                            <p class="mt-0 mb-0">From: username</p>
+                            <p class="mt-0 mb-0">From: {{ invite.adminName }}</p>
                         </div>
                         <div class="col-2"><button @click="acceptInvite(invite)" class="btn btn-primary">Accept</button></div>
                         <div class="col-2"><button @click="rejectInvite(invite)" class="btn btn-danger">Reject</button></div>
@@ -40,6 +40,15 @@ export default {
                     console.log("League name:", leagueResponse.data.leagueName);
 
                     this.$set(invitation, "leagueName", leagueResponse.data.leagueName);
+
+                    const adminResponse = await axios.get(`/api/invitations/${invitation.invitationID}/admin`, {
+                        headers: {
+                            Authorization: `Bearer ${this.$store.state.token}`
+                        }
+                    });
+                    console.log("Admin name:", adminResponse.data);
+
+                    this.$set(invitation, "adminName", adminResponse.data);
                 }
             }
         } catch (error) {
