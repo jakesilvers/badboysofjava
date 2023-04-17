@@ -137,3 +137,8 @@ insert into record values (default, 10, 6, 1, 0);
 commit;
 
 
+start transaction;
+ALTER TABLE match ALTER COLUMN start_time TYPE varchar (30); 
+commit;
+
+select * from match;
