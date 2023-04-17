@@ -24,12 +24,12 @@ public class JdbcScoreCardDao implements ScoreCardDao {
     }
 
     @Override
-    public int createScoreCard(ScoreCard s) {
+    public int createScoreCard(int matchID, int userID) {
         int scorecardId;
 
         String sql = "INSERT INTO scorecard (match_id, player_id, score) VALUES (?, ?, ?) RETURNING scoretable_id";
         try {
-            scorecardId = jdbcTemplate.queryForObject(sql, Integer.class, s.getMatchID(), s.getPlayerID(), s.getScoreValue());
+            scorecardId = jdbcTemplate.queryForObject(sql, int.class, matchID, userID, 0);
         } catch (NullPointerException e) {
             throw new NullPointerException("Unable to create Scorecard");
 
@@ -88,6 +88,14 @@ public class JdbcScoreCardDao implements ScoreCardDao {
         }
         return null;
 
+
+    }
+
+    @Override
+    public boolean updateScore(int matchID, int userID, int score) {
+        String sql = "UPDATE score SET score = ? WHERE match_id = ? AND player_id = ?;";
+
+        return jdbcTemplate.update(sql, score, matchID, userID) == 1;
 
     }
 

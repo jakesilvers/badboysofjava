@@ -1,5 +1,7 @@
 package com.techelevator.dao;
 
+import com.techelevator.model.Course;
+import com.techelevator.model.League;
 import com.techelevator.model.Match;
 import com.techelevator.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,9 +16,12 @@ import java.util.List;
 @Component
 public class JdbcMatchDao  implements MatchDao{
     private JdbcTemplate jdbcTemplate;
+    private ScoreCardDao scoreCardDao;
 
-    public JdbcMatchDao(JdbcTemplate jdbcTemplate) {
+
+    public JdbcMatchDao(JdbcTemplate jdbcTemplate, ScoreCardDao scoreCardDao) {
         this.jdbcTemplate = jdbcTemplate;
+        this.scoreCardDao = scoreCardDao;
     }
 
 
@@ -90,6 +95,8 @@ public class JdbcMatchDao  implements MatchDao{
             throw new NullPointerException("Unable to add user to match");
         }
 
+        scoreCardDao.createScoreCard(matchID, userID);
+
         return success > 0;
 
     }
@@ -127,6 +134,55 @@ public class JdbcMatchDao  implements MatchDao{
         return matchList;
 
     }
+
+    @Override
+    public int getLeagueIDByMatchID(int matchID) {
+        String sql = "SELECT league_id FROM match WHERE match_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+
+        if (results.next()) {
+            return results.getInt("league_id");
+        }
+
+        return 0;
+
+    }
+
+    @Override
+    public League getLeagueByMatchID(int matchID) {
+        String sql = "SELECT league_id, league_name FROM league JOIN league.league_id ON match.league_id WHERE match_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+
+        if (results.next()) {
+            League l = new League();
+            l.setLeagueID(results.getInt("league_id"));
+            l.setLeagueName(results.getString("league_name"));
+            return l;
+        }
+        return null;
+    }
+
+    @Override
+    public String getCourseByMatchID(int matchID) {
+        String sql = "SELECT course_name FROM course JOIN league ON course.course_id " +
+                "= league.course_id JOIN match ON league.league_id = match.league_id " +
+                "WHERE match_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
+
+        if (results.next()) {
+            return results.getString("course_name");
+        }
+
+        return null;
+
+    }
+
+
+
+
 
     private User mapRowToUser(SqlRowSet rs) {
         User u = new User();
