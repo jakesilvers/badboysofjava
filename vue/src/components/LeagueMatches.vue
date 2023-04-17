@@ -1,74 +1,132 @@
 <template>
-    <div class="container mx-auto">
-        <div class="row">
-            <div class="col-12">
-                <h1>Upcoming Matches</h1>
+    <div class="card-body">
+        <h1>Matches</h1>
+        <button @click="createMatchBtn" class="btn btn-primary mt-2 mb-2" v-if="!createdMatch">Create Match</button>
+        <form @submit.prevent="createMatch" v-if="createdMatch">
+            <div class="row">
+                <div class="col-6">
+                    <input id="date" class="mt-2 form-control" type="date" v-model="date" />
+                    <label for="date"></label>
+                </div>
+                <div class="col-6">
+                    <input id="time" class="mt-2 form-control" type="time" v-model="time" />
+                    <label for="time"></label>
+                </div>
             </div>
-        </div>
-        <div class="row match">
-            <div class="col-3">
-                <p class="mb-0"><strong>Date:</strong></p>
-                <p class="mt-0"><em>1/2/2023</em></p>
+            <div class="row">
+                <div class="col-4">
+                    <button class="btn btn-primary mb-4">Submit</button>
+                </div>
             </div>
-            <div class="col-3">
-                <p class="mb-0"><strong>Date:</strong></p>
-                <p class="mt-0"><em>1/2/2023</em></p>
-            </div>
-            <div class="col-3"><strong>Jake's League</strong></div>
-            <div class="col-3">
-                <p class="mb-0"><strong>Date:</strong></p>
-                <p class="mt-0"><em>1/2/2023</em></p>
-            </div>
-        </div>
-        <div class="row match">
-            <div class="col-3">
-                <p class="mb-0"><strong>Date:</strong></p>
-                <p class="mt-0"><em>1/2/2023</em></p>
-            </div>
-            <div class="col-3">
-                <p class="mb-0"><strong>Date:</strong></p>
-                <p class="mt-0"><em>1/2/2023</em></p>
-            </div>
-            <div class="col-3"><strong>Jake's League</strong></div>
-            <div class="col-3">
-                <p class="mb-0"><strong>Date:</strong></p>
-                <p class="mt-0"><em>1/2/2023</em></p>
-            </div>
-        </div>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">View</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>nchesko</td>
+                    <td>abetzel</td>
+                    <td>1/23/2023</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>nchesko</td>
+                    <td>abetzel</td>
+                    <td>1/23/2023</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>nchesko</td>
+                    <td>abetzel</td>
+                    <td>1/23/2023</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th scope="row">4</th>
+                    <td>nchesko</td>
+                    <td>abetzel</td>
+                    <td>1/23/2023</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th scope="row">5</th>
+                    <td>nchesko</td>
+                    <td>abetzel</td>
+                    <td>1/23/2023</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <th scope="row">6</th>
+                    <td>nchesko</td>
+                    <td>abetzel</td>
+                    <td>1/23/2023</td>
+                    <td>1</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </template>
 
-<script></script>
+<script>
+import axios from "axios";
+import moment from "moment";
+
+export default {
+    data() {
+        return {
+            createdMatch: false,
+            date: null,
+            time: null
+        };
+    },
+    methods: {
+        createMatchBtn() {
+            this.createdMatch = true;
+        },
+        createMatch() {
+            const startTime = moment(`${this.date}T${this.time}`).format("YYYY-MM-DD HH:mm:ss");
+            console.log(startTime);
+
+            const requestData = {
+                leagueID: 1,
+                startTime: startTime,
+                completed: false
+            };
+
+            axios
+                .post("/api/match", requestData)
+                .then((response) => {
+                    console.log("Match created: ", response.data);
+                    this.createdMatch = false;
+                })
+                .catch((error) => {
+                    console.error("Error creating match: ", error);
+                });
+        }
+    }
+};
+</script>
 
 <style scoped>
-.container {
-    background-color: white;
-    border-radius: 5px;
-    margin-top: 20px;
-    width: 500px;
-}
-
-h4 {
-    margin-top: 20px;
-    margin-bottom: 5px;
-}
-
-.table {
-    width: 475px;
-    max-width: 475px;
-}
-
-tr {
-    border-bottom: 2px solid #e9ecef;
-}
-
 button {
-    margin-bottom: 20px;
+    background-color: #4ade80 !important;
+    border: 1px solid #22c55e !important;
 }
 
-.match {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
+button:hover,
+button:focus {
+    background-color: #16a34a !important;
+    border: 1px solid #166534 !important;
+    cursor: pointer;
 }
 </style>
