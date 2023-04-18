@@ -8,8 +8,7 @@ import store from "../store/index";
 import CreateLeague from "../views/CreateLeague";
 import League from "../views/League";
 import Profile from "../views/Profile";
-import Match from "../views/Match";
-
+import CurrentWeather from "../components/CurrentWeather"
 Vue.use(Router);
 
 /**
@@ -88,7 +87,15 @@ const router = new Router({
             meta: {
                 requiresAuth: true
             }
-        }
+
+        },
+        {
+            path: "/weather",
+            name: "weather",
+            component: CurrentWeather,
+            meta: {
+              requiresAuth: true
+            }}
     ]
 });
 

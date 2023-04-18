@@ -8,11 +8,15 @@ public interface RecordDao {
 
     int createRecord(int playedID, int leagueID);
 
-    boolean updateRecord(int matchID, int playerID1, int playerID2);
+//    boolean updateRecord(int matchID, int playerID1, int playerID2);
 
     List<Record> getRecordsForUser(int userID);
 
     Record getRecordByLeagueAndUserID (int leagueID, int userID);
+
+    boolean updateWinColumn (int playerID, int matchID);
+
+    boolean updateLossColumn (int playerID, int matchID);
 
 
 

@@ -4,6 +4,7 @@ import com.techelevator.model.Course;
 import com.techelevator.model.League;
 import com.techelevator.model.Match;
 import com.techelevator.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -15,14 +16,11 @@ import java.util.List;
 
 @Component
 public class JdbcMatchDao  implements MatchDao{
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private ScoreCardDao scoreCardDao;
-
-
-    public JdbcMatchDao(JdbcTemplate jdbcTemplate, ScoreCardDao scoreCardDao) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.scoreCardDao = scoreCardDao;
-    }
 
 
     @Override
@@ -179,6 +177,36 @@ public class JdbcMatchDao  implements MatchDao{
         return null;
 
     }
+
+    @Override
+    public List<List<String>> getMatchesByUserID(int userID) {
+        List<List<String>> matchList = new ArrayList<>();
+
+        String sql = "SELECT course_id, league_name, start_time, match.match_id FROM league " +
+                "JOIN match ON league.league_id = match.league_id " +
+                "JOIN match_player ON match.match_id = match_player.match_id WHERE player_id = ?;";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userID);
+
+        while (results.next()) {
+            List<String> specificMatch = new ArrayList<>();
+            specificMatch.add(results.getString("course_id"));
+            specificMatch.add(results.getString("league_name"));
+            specificMatch.add(results.getString("start_time"));
+            specificMatch.add(results.getString("match_id"));
+            matchList.add(specificMatch);
+        }
+
+
+
+
+        return matchList;
+    }
+
+
+
+
+
 
 
 

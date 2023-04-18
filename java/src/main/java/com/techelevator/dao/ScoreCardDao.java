@@ -19,4 +19,8 @@ public interface ScoreCardDao {
     boolean updateScore(int matchID, int userID, int score);
 
     ScoreCard getScoreCardID(int scoreCardID);
+
+    int getScore(int playerID, int matchID);
+
+
 }

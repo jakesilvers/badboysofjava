@@ -108,9 +108,17 @@ public class MatchController {
         return matchDao.getLeagueByMatchID(matchID);
     }
 
-    @RequestMapping(path  = "api/course/league/{matchID}", method = RequestMethod.GET)
+    @RequestMapping(path  = "api/course/league/match/{matchID}", method = RequestMethod.GET)
     public String getCourseByMatchID(@PathVariable int matchID) {
         return matchDao.getCourseByMatchID(matchID);
+    }
+
+    @RequestMapping(path = "/api/course/league/matches/user/{userID}", method = RequestMethod.GET)
+    public List<List<String>> getMatchesByUserID(@PathVariable int userID, Principal p) {
+        if (userID == getFromPrincipal(p)) {
+            return matchDao.getMatchesByUserID(userID);
+        }
+        return null;
     }
 
 
