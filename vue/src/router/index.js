@@ -8,6 +8,7 @@ import store from "../store/index";
 import CreateLeague from "../views/CreateLeague";
 import League from "../views/League";
 import Profile from "../views/Profile";
+import FindCourses from "../views/FindCourses"
 
 Vue.use(Router);
 
@@ -79,6 +80,15 @@ const router = new Router({
             meta: {
                 requiresAuth: true
             }
+        },  
+        {
+            path: "/courses",
+            name: "courses",
+            component: FindCourses,
+            meta: {
+                requiresAuth: true
+            }
+
         }
     ]
 });
