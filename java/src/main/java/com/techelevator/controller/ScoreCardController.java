@@ -1,21 +1,12 @@
 package com.techelevator.controller;
 
-import com.techelevator.dao.LeagueDao;
-import com.techelevator.dao.MatchDao;
-import com.techelevator.dao.ScoreCardDao;
-import com.techelevator.dao.UserDao;
+import com.techelevator.dao.*;
 import com.techelevator.model.League;
-import com.techelevator.model.NewScoreCardDto;
 import com.techelevator.model.ScoreCard;
-import com.techelevator.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -30,6 +21,8 @@ public class ScoreCardController {
     private LeagueDao leagueDao;
     @Autowired
     private MatchDao matchDao;
+    @Autowired
+    private RecordDao recordDao;
 
 //    @PostMapping("/api/scorecards")
 //    public ScoreCard createScoreCard(@RequestBody NewScoreCardDto s, Principal p) {
@@ -89,6 +82,30 @@ public class ScoreCardController {
 
             return scoreCardDao.updateScore(matchID, userID, score);
         }
+
+
+
+//        List<String> usersInMatch = matchDao.showUsersInMatch(matchID);
+//        String player1 = usersInMatch.get(0);
+//        String player2 = usersInMatch.get(1);
+//
+//        int player1ID = userDao.findIdByUsername(player1);
+//        int player2ID = userDao.findIdByUsername(player2);
+//
+//        int player1Score = scoreCardDao.getScore(player1ID, matchID);
+//        int player2Score = scoreCardDao.getScore(player2ID, matchID);
+//
+//        if (player1Score < player2Score) {
+//            recordDao.updateWinColumn(player1ID, matchID);
+//            recordDao.updateLossColumn(player2ID, matchID);
+//        }
+//
+//        if (player2Score < player1Score) {
+//            recordDao.updateWinColumn(player2ID, matchID);
+//            recordDao.updateLossColumn(player1ID, matchID);
+//        }
+
+
         return false;
     }
 
