@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.ScoreCard;
 import com.techelevator.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -17,10 +18,18 @@ public class JdbcScoreCardDao implements ScoreCardDao {
 
     private JdbcTemplate jdbcTemplate;
     private UserDao userDao;
+    @Autowired
+    private MatchDao matchDao;
+    @Autowired
+    ScoreCardDao scoreCardDao;
+    @Autowired
+    RecordDao recordDao;
 
     public JdbcScoreCardDao(JdbcTemplate jdbcTemplate, UserDao userDao) {
         this.jdbcTemplate = jdbcTemplate;
         this.userDao = userDao;
+        ;
+
     }
 
     @Override
@@ -61,7 +70,6 @@ public class JdbcScoreCardDao implements ScoreCardDao {
     }
 
 
-
     @Override
     public ScoreCard getScoreCardID(int scoreCardID) {
         String sql = "SELECT * FROM scorecard WHERE scoretable_id = ?";
@@ -79,7 +87,7 @@ public class JdbcScoreCardDao implements ScoreCardDao {
         String sql = "SELECT * FROM scorecard WHERE match_id = ?; ";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID);
 
-        while(results.next()) {
+        while (results.next()) {
             ScoreCard s = mapRowToScoreCard(results);
             matchScoreCards.add(s);
         }
@@ -95,13 +103,51 @@ public class JdbcScoreCardDao implements ScoreCardDao {
     public boolean updateScore(int matchID, int userID, int score) {
         String sql = "UPDATE score SET score = ? WHERE match_id = ? AND player_id = ?;";
 
-        return jdbcTemplate.update(sql, score, matchID, userID) == 1;
+        if (jdbcTemplate.update(sql, score, matchID, userID) == 1) {
+
+            List<String> usersInMatch = matchDao.showUsersInMatch(matchID);
+            String player1 = usersInMatch.get(0);
+            String player2 = usersInMatch.get(1);
+
+            int player1ID = userDao.findIdByUsername(player1);
+            int player2ID = userDao.findIdByUsername(player2);
+
+            int player1Score = scoreCardDao.getScore(player1ID, matchID);
+            int player2Score = scoreCardDao.getScore(player2ID, matchID);
+
+            if (player1Score < player2Score) {
+                recordDao.updateWinColumn(player1ID, matchID);
+                recordDao.updateLossColumn(player2ID, matchID);
+            }
+
+            if (player2Score < player1Score) {
+                recordDao.updateWinColumn(player2ID, matchID);
+                recordDao.updateLossColumn(player1ID, matchID);
+            }
+            return true;
+
+        }
+        return false;
+    }
+
+    @Override
+    public int getScore(int playerID, int matchID) {
+        String sql = "SELECT score FROM scorecard WHERE player_id = ? AND match_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, playerID, matchID);
+
+        int score;
+
+        if (results.next()) {
+            score = results.getInt("score");
+        } else {
+            score = 0;
+        }
+        return score;
 
     }
 
 
-
-    private ScoreCard mapRowToScoreCard (SqlRowSet rs) {
+    private ScoreCard mapRowToScoreCard(SqlRowSet rs) {
         ScoreCard s = new ScoreCard();
 
         s.setScoreCardID(rs.getInt("scoretable_id"));
@@ -111,7 +157,6 @@ public class JdbcScoreCardDao implements ScoreCardDao {
         return s;
 
     }
-
 
 
 }

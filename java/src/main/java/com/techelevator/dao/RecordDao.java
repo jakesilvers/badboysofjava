@@ -14,6 +14,10 @@ public interface RecordDao {
 
     Record getRecordByLeagueAndUserID (int leagueID, int userID);
 
+    boolean updateWinColumn (int playerID, int matchID);
+
+    boolean updateLossColumn (int playerID, int matchID);
+
 
 
 

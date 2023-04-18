@@ -12,6 +12,7 @@ public class Match {
     private String startTime;
     private boolean isCompleted;
 
+
 //    public Match(int matchID, int leagueID, LocalDateTime startTime, LocalDateTime endTime, boolean isCompleted) {
 //        this.matchID = matchID;
 //        this.leagueID = leagueID;
@@ -23,6 +24,7 @@ public class Match {
     public int getMatchID() {
         return matchID;
     }
+
 
     public void setMatchID(int matchID) {
         this.matchID = matchID;
