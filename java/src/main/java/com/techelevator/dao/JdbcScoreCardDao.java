@@ -99,7 +99,9 @@ public class JdbcScoreCardDao implements ScoreCardDao {
 
         if (jdbcTemplate.update(sql, score, matchID, userID) == 1) {
 
-            String sql1 = "SELECT username FROM users JOIN match_player ON user.user_id = match_player.player_id " +
+
+
+            String sql1 = "SELECT username FROM users JOIN match_player ON users.user_id = match_player.player_id " +
                     "WHERE match_id = ? ;";
 
             SqlRowSet results = jdbcTemplate.queryForRowSet(sql1, matchID);
