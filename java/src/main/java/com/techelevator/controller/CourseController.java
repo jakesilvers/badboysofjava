@@ -3,6 +3,7 @@ package com.techelevator.controller;
 
 import com.techelevator.dao.CourseDao;
 import com.techelevator.model.Course;
+import com.techelevator.model.NewCourseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -36,6 +37,20 @@ public class CourseController {
     @GetMapping("/api/course/league/{id}")
     public String getCourseNameByLeagueID(@PathVariable int id) {
         return courseDao.getCourseNameByLeagueID(id);
+    }
+
+    @RequestMapping(path = "/api/course", method = RequestMethod.POST)
+    public Course createCourse(@RequestBody NewCourseDto dto) {
+        Course c = new Course();
+        c.setCourseName(dto.getCourseName());
+        c.setAddress(dto.getCourseAddress());
+        c.setCity(dto.getCity());
+        c.setState(dto.getState());
+        c.setCountry(dto.getCountry());
+        c.setCourseID(courseDao.createCourse(c));
+
+        return c;
+
     }
 
 }
