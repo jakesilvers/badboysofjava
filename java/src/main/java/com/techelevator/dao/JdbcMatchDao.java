@@ -193,6 +193,7 @@ public class JdbcMatchDao  implements MatchDao{
             specificMatch.add(results.getString("course_id"));
             specificMatch.add(results.getString("league_name"));
             specificMatch.add(results.getString("start_time"));
+            specificMatch.add(results.getString("match.match_id"));
             matchList.add(specificMatch);
         }
 
