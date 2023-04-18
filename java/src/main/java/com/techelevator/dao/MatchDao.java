@@ -30,5 +30,9 @@ public interface MatchDao {
 
     String getCourseByMatchID(int matchID);
 
+    List<List<String>> getMatchesByUserID(int userIO);
+
+
+
 
 }

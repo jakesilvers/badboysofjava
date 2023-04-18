@@ -9,6 +9,8 @@ import CreateLeague from "../views/CreateLeague";
 import League from "../views/League";
 import Profile from "../views/Profile";
 import CurrentWeather from "../components/CurrentWeather"
+import Match from "../views/Match";
+
 Vue.use(Router);
 
 /**
@@ -68,6 +70,14 @@ const router = new Router({
             path: "/league/:id",
             name: "league",
             component: League,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: "/match/:id",
+            component: Match,
+            name: "match",
             meta: {
                 requiresAuth: true
             }
