@@ -12,4 +12,6 @@ public interface CourseDao {
 
     String getCourseNameByLeagueID(int leagueID);
 
+    int createCourse(Course c);
+
 }
