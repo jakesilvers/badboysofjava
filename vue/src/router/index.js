@@ -10,6 +10,7 @@ import League from "../views/League";
 import Profile from "../views/Profile";
 import CurrentWeather from "../components/CurrentWeather"
 import Match from "../views/Match";
+import FindGolfCoursesNearYou from "../components/FindGolfCoursesNearYou";
 
 Vue.use(Router);
 
@@ -97,7 +98,14 @@ const router = new Router({
             component: CurrentWeather,
             meta: {
               requiresAuth: true
-            }}
+            }},
+            {
+                path: '/golf-courses',
+                name: 'GolfCourses',
+                component: FindGolfCoursesNearYou,
+                meta: {
+                    requiresAuth: true
+                }},
     ]
 });
 
