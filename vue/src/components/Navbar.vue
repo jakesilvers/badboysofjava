@@ -22,9 +22,10 @@ a {
 }
 
 img {
-    width: 50%;
+    width: 100%
 }
 .navbar {
     background-color: #4ade80 !important;
 }
 </style>
+  
