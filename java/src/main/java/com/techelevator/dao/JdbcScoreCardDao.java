@@ -16,21 +16,15 @@ import java.util.List;
 @Component
 public class JdbcScoreCardDao implements ScoreCardDao {
 
+    @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private UserDao userDao;
     @Autowired
-    private MatchDao matchDao;
+    private ScoreCardDao scoreCardDao;
     @Autowired
-    ScoreCardDao scoreCardDao;
-    @Autowired
-    RecordDao recordDao;
+    private RecordDao recordDao;
 
-    public JdbcScoreCardDao(JdbcTemplate jdbcTemplate, UserDao userDao) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.userDao = userDao;
-        ;
-
-    }
 
     @Override
     public int createScoreCard(int matchID, int userID) {
@@ -105,7 +99,15 @@ public class JdbcScoreCardDao implements ScoreCardDao {
 
         if (jdbcTemplate.update(sql, score, matchID, userID) == 1) {
 
-            List<String> usersInMatch = matchDao.showUsersInMatch(matchID);
+            String sql1 = "SELECT username FROM users JOIN match_player ON user.user_id = match_player.player_id " +
+                    "WHERE match_id = ? ;";
+
+            SqlRowSet results = jdbcTemplate.queryForRowSet(sql1, matchID);
+
+            List<String> usersInMatch = new ArrayList<>();
+            while (results.next()){
+                usersInMatch.add(results.getString("username"));
+            }
             String player1 = usersInMatch.get(0);
             String player2 = usersInMatch.get(1);
 

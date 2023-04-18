@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.Record;
 import com.techelevator.model.ScoreCard;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -13,15 +14,11 @@ import java.util.List;
 @Component
 public class JdbcRecordDao implements RecordDao {
 
+    @Autowired
     private JdbcTemplate jdbcTemplate;
-    private ScoreCardDao scoreCardDao;
-    private MatchDao matchDao;
 
-    private JdbcRecordDao(JdbcTemplate jdbcTemplate, ScoreCardDao scoreCardDao, MatchDao matchDao) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.scoreCardDao = scoreCardDao;
-        this.matchDao = matchDao;
-    }
+    @Autowired
+    private MatchDao matchDao;
 
 
     @Override
@@ -38,10 +35,10 @@ public class JdbcRecordDao implements RecordDao {
         return recordID;
     }
 
-    @Override
-    public boolean updateRecord(int matchID, int playerID1, int playerID2) {
-        List<ScoreCard> scoreCardList = scoreCardDao.getScoreCardsByMatchID(matchID);
-        int leagueID = matchDao.getLeagueIDByMatchID(matchID);
+//    @Override
+//    public boolean updateRecord(int matchID, int playerID1, int playerID2) {
+//        List<ScoreCard> scoreCardList = scoreCardDao.getScoreCardsByMatchID(matchID);
+//        int leagueID = matchDao.getLeagueIDByMatchID(matchID);
 
 
 
@@ -113,8 +110,8 @@ public class JdbcRecordDao implements RecordDao {
 //                return works && works2;
 //            }
 
-        return false;
-    }
+//        return false;
+//    }
 
     @Override
     public List<Record> getRecordsForUser(int userID) {

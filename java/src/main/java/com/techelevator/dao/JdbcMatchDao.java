@@ -4,6 +4,7 @@ import com.techelevator.model.Course;
 import com.techelevator.model.League;
 import com.techelevator.model.Match;
 import com.techelevator.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -15,14 +16,11 @@ import java.util.List;
 
 @Component
 public class JdbcMatchDao  implements MatchDao{
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private ScoreCardDao scoreCardDao;
-
-
-    public JdbcMatchDao(JdbcTemplate jdbcTemplate, ScoreCardDao scoreCardDao) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.scoreCardDao = scoreCardDao;
-    }
 
 
     @Override
