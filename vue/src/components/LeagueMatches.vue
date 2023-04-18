@@ -22,55 +22,22 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Username</th>
+                    <th scope="col">Player 1</th>
+                    <th scope="col">Player 2</th>
                     <th scope="col">Date</th>
                     <th scope="col">View</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>nchesko</td>
-                    <td>abetzel</td>
-                    <td>1/23/2023</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>nchesko</td>
-                    <td>abetzel</td>
-                    <td>1/23/2023</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>nchesko</td>
-                    <td>abetzel</td>
-                    <td>1/23/2023</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>nchesko</td>
-                    <td>abetzel</td>
-                    <td>1/23/2023</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>nchesko</td>
-                    <td>abetzel</td>
-                    <td>1/23/2023</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">6</th>
-                    <td>nchesko</td>
-                    <td>abetzel</td>
-                    <td>1/23/2023</td>
-                    <td>1</td>
+                <tr v-for="match in formattedMatches" scope="row" v-bind:key="match.id">
+                    <td>Test</td>
+                    <td>TEST</td>
+                    <td>{{ match.formattedDate }} @ {{ match.formattedTime }}</td>
+                    <td>
+                        <router-link :to="{ name: 'match', params: { id: match.matchID } }">
+                            <button class="btn btn-primary">View</button>
+                        </router-link>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -84,10 +51,33 @@ import moment from "moment";
 export default {
     data() {
         return {
+            match: null,
+            matches: [],
             createdMatch: false,
-            date: null,
-            time: null
+            date: "",
+            time: ""
         };
+    },
+    created() {
+        axios
+            .get(`/api/league/${this.$route.params.id}/match`)
+            .then((response) => {
+                this.matches = response.data;
+            })
+            .catch((error) => {
+                console.error("Error retrieving matches: ", error);
+            });
+    },
+    computed: {
+        formattedMatches() {
+            return this.matches.map((match) => {
+                return {
+                    ...match,
+                    formattedDate: moment(match.startTime).format("MMMM D, YYYY"),
+                    formattedTime: moment(match.startTime).format("h:mm A")
+                };
+            });
+        }
     },
     methods: {
         createMatchBtn() {
@@ -95,7 +85,7 @@ export default {
         },
         createMatch() {
             const startTime = moment(`${this.date}T${this.time}`).format("YYYY-MM-DD HH:mm:ss");
-            console.log(startTime);
+            console.log("Start time", startTime);
 
             const requestData = {
                 leagueID: 1,
@@ -107,7 +97,10 @@ export default {
                 .post("/api/match", requestData)
                 .then((response) => {
                     console.log("Match created: ", response.data);
+                    this.match = response.data;
                     this.createdMatch = false;
+                    const matchingMatch = this.matches.find((match) => match.startTime === this.match.startTime);
+                    matchingMatch.matchID = this.match.matchID;
                 })
                 .catch((error) => {
                     console.error("Error creating match: ", error);
