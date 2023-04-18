@@ -20,6 +20,7 @@ import static com.techelevator.model.Invitation.INVITATION_STATUS_PENDING;
 @CrossOrigin
 public class InvitationController {
 
+    @Autowired
     private InvitationDao invitationDao;
 
     @Autowired
@@ -28,9 +29,7 @@ public class InvitationController {
     @Autowired
     private LeagueDao leagueDao;
 
-    public InvitationController(InvitationDao invitationDao) {
-        this.invitationDao = invitationDao;
-    }
+
 
     public int getFromPrincipal(Principal p) {
         ;

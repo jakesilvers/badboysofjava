@@ -73,6 +73,14 @@ const router = new Router({
             }
         },
         {
+            path: "/match/:id",
+            component: Match,
+            name: "match",
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
             path: "/profile",
             name: "profile",
             component: Profile,
