@@ -155,7 +155,7 @@ public class JdbcRecordDao implements RecordDao {
     @Override
     public boolean updateLossColumn(int playerID, int matchID) {
         int leagueID = matchDao.getLeagueIDByMatchID(matchID);
-        String sql = "SELECT loss FROM record WHERE league_id = ? AND playerID = ?;";
+        String sql = "SELECT loss FROM record WHERE league_id = ? AND player_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, leagueID, playerID);
 
         int losses = getNumberOfLosses(results);
