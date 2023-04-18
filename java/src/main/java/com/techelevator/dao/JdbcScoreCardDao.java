@@ -95,7 +95,7 @@ public class JdbcScoreCardDao implements ScoreCardDao {
 
     @Override
     public boolean updateScore(int matchID, int userID, int score) {
-        String sql = "UPDATE score SET score = ? WHERE match_id = ? AND player_id = ?;";
+        String sql = "UPDATE scorecard SET score = ? WHERE match_id = ? AND player_id = ?;";
 
         if (jdbcTemplate.update(sql, score, matchID, userID) == 1) {
 
