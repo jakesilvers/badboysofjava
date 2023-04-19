@@ -37,12 +37,12 @@
                 <div class="card">
                     <div class="card-body">
                         <h1>Scorecard</h1>
-                        <form @submit.prevent="updateScorecard">
+                        <form @submit.prevent="updateScore(0, player1Score)">
                             <h4>{{ matchPlayers[0] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player1Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
                         </form>
-                        <form @submit.prevent="updateScorecard">
+                        <form @submit.prevent="updateScore(1, player2Score)">
                             <h4 class="mt-4">{{ matchPlayers[1] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player2Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
@@ -64,10 +64,31 @@ export default {
             selectedUser: "",
             addPlayerBtn: true,
             matchPlayers: [],
-            leagueName: ""
+            leagueName: "",
+            player1Score: null,
+            player2Score: null
         };
     },
     methods: {
+        updateScore(playerIndex, newScore) {
+            const matchID = this.$route.params.id;
+            const playerID = playerIndex === 0 ? 1 : 2;
+            axios.get(`/match/${matchID}/scorecards`).then((response) => {
+                const scorecardID = response.data[playerIndex].id;
+                axios
+                    .put(`/api/match/${scorecardID}`, {
+                        score: newScore,
+                        playerID: playerID,
+                        matchID: matchID
+                    })
+                    .then((response) => {
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.erorr(error);
+                    });
+            });
+        },
         // FORMAT THE DATE
         formatDate(dateString) {
             const options = {
