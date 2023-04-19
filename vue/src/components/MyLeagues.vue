@@ -16,14 +16,12 @@
                         <tr v-for="league in leagues" :key="league.id">
                             <th scope="row">{{ league.leagueID }}</th>
                             <td>
-                                <router-link :to="{ name: 'league', params: { id:league.leagueID } }">
-                                    {{ league.leagueName }} 
+                                <router-link :to="{ name: 'league', params: { id: league.leagueID } }">
+                                    {{ league.leagueName }}
                                 </router-link>
                             </td>
-                            <td >
-                                <router-link :to="{ name: 'league', params: { id:league.courseID } }">
-                                    {{ league.courseID }} 
-                                </router-link>
+                            <td>
+                                {{ league.courseName }}
                             </td>
                         </tr>
                     </tbody>
