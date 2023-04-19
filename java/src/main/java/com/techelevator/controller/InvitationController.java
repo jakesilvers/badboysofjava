@@ -58,10 +58,10 @@ public class InvitationController {
 
     }
 
-    @RequestMapping(path = "/api/invitations/{id}", method = RequestMethod.PUT)
-    public Invitation respondToInvitation(@RequestBody Invitation i, @PathVariable int id, Principal p) {
+    @RequestMapping(path = "/api/invitations/{invitationID}", method = RequestMethod.PUT)
+    public Invitation respondToInvitation(@RequestBody Invitation i, @PathVariable int invitationID, Principal p) {
         if (i.getPlayerID() == getFromPrincipal(p)) {
-            invitationDao.respondToInvitation(i, id);
+            invitationDao.respondToInvitation(i, invitationID);
             return i;
         }
         return null;

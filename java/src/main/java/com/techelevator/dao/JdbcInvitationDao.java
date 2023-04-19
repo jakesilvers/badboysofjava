@@ -49,7 +49,7 @@ public class JdbcInvitationDao implements InvitationDao {
         String sql = "UPDATE invitations SET invitation_status = ? WHERE invitation_id = ?;";
         if (i.getInvitationStatus().equals(INVITATION_STATUS_APPROVED)) {
             jdbcTemplate.update(sql, INVITATION_STATUS_APPROVED, id);
-            jdbcLeagueDao.addUserIntoLeaguePlayer(id, i.getPlayerID());
+            jdbcLeagueDao.addUserIntoLeaguePlayer(i.getLeagueID(), i.getPlayerID());
             jdbcRecordDao.createRecord(i.getPlayerID(), i.getLeagueID());
 
         }
