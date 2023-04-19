@@ -73,22 +73,37 @@ export default {
         updateScore(playerIndex, newScore) {
             const matchID = this.$route.params.id;
             const playerID = playerIndex === 0 ? 1 : 2;
-            axios.get(`/match/${matchID}/scorecards`).then((response) => {
-                const scorecardID = response.data[playerIndex].id;
-                axios
-                    .put(`/api/match/${scorecardID}`, {
-                        score: newScore,
-                        playerID: playerID,
-                        matchID: matchID
-                    })
-                    .then((response) => {
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        console.erorr(error);
-                    });
-            });
+            axios
+                .get(`/match/${matchID}/scorecards`)
+                .then((response) => {
+                    const scorecardID = response.data[playerID].scoreCardID;
+                    console.log(scorecardID);
+                    axios
+                        .put(
+                            `/api/scorecards/${scorecardID}`,
+                            {
+                                score: newScore,
+                                playerID: playerID,
+                                matchID: matchID
+                            },
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${this.$store.state.token}`
+                                }
+                            }
+                        )
+                        .then((response) => {
+                            console.log(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
+
         // FORMAT THE DATE
         formatDate(dateString) {
             const options = {
