@@ -64,62 +64,10 @@ export default {
             selectedUser: "",
             addPlayerBtn: true,
             matchPlayers: [],
-            leagueName: "",
-            player1Score: 0,
-            player2Score: 0
+            leagueName: ""
         };
     },
     methods: {
-        updateScorecard: function () {
-            const matchID = this.match.id;
-            const player1ID = this.match.players[0].id;
-            const player2ID = this.match.players[1].id;
-            const player1Score = this.player1Score;
-            const player2Score = this.player2Score;
-
-            axios
-                .get(`/api/scorecards/match/${matchID}`)
-                .then((response) => {
-                    const scorecards = response.data;
-
-                    // Find the scorecard for player 1
-                    const player1Scorecard = scorecards.find((scorecard) => scorecard.playerID === player1ID);
-
-                    // Update the score value if the scorecard exists
-                    if (player1Scorecard) {
-                        axios
-                            .put(`/api/scorecards/${player1Scorecard.id}`, {
-                                scoreValue: player1Score
-                            })
-                            .then((response) => {
-                                console.log(response.data);
-                            })
-                            .catch((error) => {
-                                console.error(error);
-                            });
-                    }
-
-                    // Find the scorecard for player 2
-                    const player2Scorecard = scorecards.find((scorecard) => scorecard.playerID === player2ID);
-
-                    // Update the score value if the scorecard exists
-                    if (player2Scorecard) {
-                        axios
-                            .put(`/api/scorecards/${player2Scorecard.id}`, {
-                                scoreValue: player2Score
-                            })
-                            .then((response) => {
-                                console.log(response.data);
-                            })
-                            .catch((error) => {
-                                console.error(error);
-                            });
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        },
         // FORMAT THE DATE
         formatDate(dateString) {
             const options = {
@@ -183,7 +131,6 @@ export default {
                         });
                 })
                 .catch((error) => {
-                    // handle error
                     console.error(error);
                 });
         },
@@ -222,6 +169,7 @@ export default {
             });
     },
     computed: {
+        // CHECKS IF THERE'S AT MOST 2 PLAYERS IN THE MATCH
         isMatchFull() {
             return this.matchPlayers.length === 2;
         }
