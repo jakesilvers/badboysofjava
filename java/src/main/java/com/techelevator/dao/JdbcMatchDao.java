@@ -117,25 +117,16 @@ public class JdbcMatchDao  implements MatchDao{
     }
 
     @Override
-    public List<List<String>> getMatchesByLeagueID(int leagueID) {
-        List<List<String>> matchList = new ArrayList<>();
+    public List<Match> getMatchesByLeagueID(int leagueID) {
+        List<Match> matchList = new ArrayList<>();
 
-        String sql = "SELECT username, user_id, match.match_id, league_id, start_time, is_completed FROM users " +
-                "JOIN match_player ON users.user_id = match_player.player_id JOIN match " +
-                "ON match_player.match_id = match.match_id WHERE league_id = ?;";
+        String sql = "SELECT * FROM match WHERE league_id = ?;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, leagueID);
 
         while(results.next()) {
-            List<String> specificMatch = new ArrayList<>();
-            specificMatch.add(results.getString("username"));
-            specificMatch.add(results.getString("user_id"));
-            specificMatch.add(results.getString("match_id"));
-            specificMatch.add(results.getString("league_id"));
-            specificMatch.add(results.getString("start_time"));
-            specificMatch.add(results.getString("is_completed"));
-            matchList.add(specificMatch);
-
+            Match m = mapRowToMatch(results);
+            matchList.add(m);
         }
 
         return matchList;
