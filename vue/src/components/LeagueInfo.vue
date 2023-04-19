@@ -50,7 +50,7 @@ export default {
                 this.courseName = response.data;
             })
             .catch((error) => {
-                console.log(error);
+                console.info(error);
             });
         axios
             .get(`/api/league/${leagueID}/user`)
@@ -58,7 +58,7 @@ export default {
                 this.users = response.data;
             })
             .catch((error) => {
-                console.log(error);
+                console.info(error);
             });
     },
     methods: {
@@ -97,7 +97,7 @@ export default {
                             }
                         )
                         .then((response) => {
-                            console.log(response.data);
+                            console.info(response.data);
                             this.username = "";
                             this.inviteSent = true;
                             setTimeout(() => {

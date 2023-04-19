@@ -64,7 +64,7 @@ export default {
             .get(`/api/league/${this.$route.params.id}/match`)
             .then((response) => {
                 this.matches = response.data;
-                console.log("Match data", response.data);
+                console.info("Match data", response.data);
                 // Fetch match players for each match
                 for (let i = 0; i < this.matches.length; i++) {
                     const matchID = this.matches[i].matchID;
@@ -72,7 +72,7 @@ export default {
                         .get(`/api/match/${matchID}/user`)
                         .then((response) => {
                             this.$set(this.matchPlayers, matchID, response.data);
-                            console.log(response.data);
+                            console.info(response.data);
                         })
                         .catch((error) => {
                             console.error(error);
