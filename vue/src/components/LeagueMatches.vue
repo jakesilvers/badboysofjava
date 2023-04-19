@@ -30,8 +30,8 @@
             </thead>
             <tbody>
                 <tr v-for="match in formattedMatches" scope="row" v-bind:key="match.id">
-                    <td>Test</td>
-                    <td>TEST</td>
+                    <td>{{ matchPlayers[0] }}</td>
+                    <td>{{ matchPlayers[1] }}</td>
                     <td>{{ match.formattedDate }} @ {{ match.formattedTime }}</td>
                     <td>
                         <router-link :to="{ name: 'match', params: { id: match.matchID } }">
@@ -55,7 +55,8 @@ export default {
             matches: [],
             createdMatch: false,
             date: "",
-            time: ""
+            time: "",
+            matchPlayers: []
         };
     },
     created() {
@@ -63,6 +64,17 @@ export default {
             .get(`/api/league/${this.$route.params.id}/match`)
             .then((response) => {
                 this.matches = response.data;
+                // Fetch match players for the first match in the list
+                const matchID = this.matches[0].matchID;
+                axios
+                    .get(`/api/match/${matchID}/user`)
+                    .then((response) => {
+                        this.matchPlayers = response.data;
+                        console.log(response.data);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
             })
             .catch((error) => {
                 console.error("Error retrieving matches: ", error);
@@ -88,7 +100,7 @@ export default {
             console.log("Start time", startTime);
 
             const requestData = {
-                leagueID: 1,
+                leagueID: this.$route.params.id,
                 startTime: startTime,
                 completed: false
             };
@@ -109,7 +121,6 @@ export default {
     }
 };
 </script>
-
 <style scoped>
 button {
     background-color: #4ade80 !important;
