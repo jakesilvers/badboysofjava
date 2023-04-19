@@ -31,13 +31,13 @@ export default {
         try {
             const response = await axios.get(`/api/invitations/${id}`);
 
-            console.log("invitations from API:", response.data);
+            //console.log("invitations from API:", response.data);
             this.invitations = response.data;
-            console.log("invitations in component:", this.invitations);
+            //console.log("invitations in component:", this.invitations);
             for (const invitation of this.invitations) {
                 if (invitation.invitationStatus === "Pending") {
                     const leagueResponse = await axios.get(`/api/league/${invitation.leagueID}`);
-                    console.log("League name:", leagueResponse.data.leagueName);
+                    //console.log("League name:", leagueResponse.data.leagueName);
 
                     this.$set(invitation, "leagueName", leagueResponse.data.leagueName);
 
@@ -46,7 +46,7 @@ export default {
                             Authorization: `Bearer ${this.$store.state.token}`
                         }
                     });
-                    console.log("Admin name:", adminResponse.data);
+                   // console.log("Admin name:", adminResponse.data);
 
                     this.$set(invitation, "adminName", adminResponse.data);
                 }
@@ -58,10 +58,10 @@ export default {
 
     methods: {
         acceptInvite(invite) {
-            console.log("accepting invite:", invite);
+           // console.log("accepting invite:", invite);
             invite.invitationStatus = "Approved";
             axios.put(`/api/invitations/${invite.invitationID}`, invite).then((response) => {
-                console.log("response:", response.data);
+                console.info("response:", response.data);
                 location.reload();
                 const index = this.invitations.findIndex((i) => i.invitationID === invite.invitationID);
                 this.invitations.splice(index, 1);
@@ -70,7 +70,7 @@ export default {
         rejectInvite(invite) {
             invite.invitationStatus = "Rejected";
             axios.put(`/api/invitations/${invite.invitationID}`, invite).then((response) => {
-                console.log("response:", response.data);
+                console.info("response:", response.data);
                 const index = this.invitations.findIndex((i) => i.invitationID === invite.invitationID);
                 this.invitations.splice(index, 1);
             });
