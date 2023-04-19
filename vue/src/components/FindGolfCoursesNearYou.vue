@@ -18,9 +18,10 @@
                     <ul v-for="(course, index) in golfCourses" :key="index">
                       <li><strong>{{ course.poi ? course.poi.name : 'Unknown' }}</strong></li>
                       <li>{{ course.address.freeformAddress }}</li>
-                    <li>Distance: {{ (course.dist / 1609.34).toFixed(2) }} miles</li>
-                        <button type="button" class="btn btn-secondary" @click="addCourse(course)">Add Course</button>
+                      <li>Distance: {{ (course.dist / 1609.34).toFixed(2) }} miles</li>
+                      <button type="button" class="btn btn-secondary" @click="addCourse(course)" :disabled="isCourseAdded(course)">Add Course</button>
                     </ul>
+                    <div v-if="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
                   </div>
                 </div>
             </div>
@@ -39,12 +40,14 @@ export default {
     return {
       golfCourses: [],
       radiusMiles: 10,
+      addedCourses:[],
+      successMessage: ''
     };
   },
   computed: {
     radiusMeters() {
       return this.radiusMiles * 1609.34;
-    },
+    }
   },
   methods: {
     getGolfCourses() {
@@ -60,18 +63,33 @@ export default {
           .catch((err) => console.error(err));
       });
     },
-  addCourse(course) {
-    const formData = {
-      name: course.poi ? course.poi.name : 'Unknown',
-      address: course.address.freeformAddress,
-      distance: (course.dist / 1609.34).toFixed(2)
-    };
-    axios.post('/api/course', formData)
-      .then(response => {
-        console.log('Course added:', response.data);
-      })
-      .catch(error => {
-        console.error('Error adding course:', error);
-      });
-  }}}
+     isCourseAdded(course) {
+  return this.addedCourses.some(c => c.courseName === (course.poi ? course.poi.name : null));
+
+  },
+    addCourse(course) {
+  if (this.isCourseAdded(course)) {
+    this.successMessage = 'This course has already been added to your list of Golf Courses.';
+    return;
+  }
+
+  const address = course.address.freeformAddress.split(', ');
+  const formData = {
+    courseName: course.poi ? course.poi.name : 'Unknown',
+    courseAddress: address[0],
+    city: address[1],
+    state: address[2],
+    country: "United States",
+    distance: (course.dist / 1609.34).toFixed(2)
+  };
+  axios.post('/api/course', formData)
+    .then(response => {
+      console.log('Course added:', response.data);
+      this.addedCourses.push(formData);
+      this.successMessage = 'Course added to your list of Golf Courses.';
+    })
+    .catch(error => {
+      console.error('Error adding course:', error);
+    });
+}}}
 </script>

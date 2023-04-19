@@ -77,8 +77,8 @@ const router = new Router({
         },
         {
             path: "/match/:id",
-            component: Match,
             name: "match",
+            component: Match,
             meta: {
                 requiresAuth: true
             }
@@ -100,7 +100,7 @@ const router = new Router({
             }},
             {
                 path: '/golf-courses',
-                name: 'GolfCourses',
+                name: 'golfCourses',
                 component: FindGolfCoursesNearYou,
                 meta: {
                     requiresAuth: true

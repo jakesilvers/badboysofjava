@@ -43,7 +43,7 @@ public class CourseController {
     public Course createCourse(@RequestBody NewCourseDto dto) {
         Course c = new Course();
         c.setCourseName(dto.getCourseName());
-        c.setAddress(dto.getCourseAddress());
+        c.setAddress(dto.getAddress());
         c.setCity(dto.getCity());
         c.setState(dto.getState());
         c.setCountry(dto.getCountry());

@@ -2,14 +2,14 @@ package com.techelevator.model;
 
 public class NewCourseDto {
     private String courseName;
-    private String courseAddress;
+    private String address;
     private String city;
     private String state;
     private String country;
 
-    NewCourseDto(String courseName, String courseAddress, String city, String state, String country){
+    NewCourseDto(String courseName, String address, String city, String state, String country){
         this.courseName = courseName;
-        this.courseAddress = courseAddress;
+        this.address = address;
         this.city = city;
         this.state = state;
         this.country = country;
@@ -23,12 +23,12 @@ public class NewCourseDto {
         this.courseName = courseName;
     }
 
-    public String getCourseAddress() {
-        return courseAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCourseAddress(String courseAddress) {
-        this.courseAddress = courseAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getCity() {
