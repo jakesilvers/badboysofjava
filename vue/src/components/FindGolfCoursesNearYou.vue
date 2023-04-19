@@ -61,17 +61,21 @@ export default {
       });
     },
   addCourse(course) {
-    const formData = {
-      name: course.poi ? course.poi.name : 'Unknown',
-      address: course.address.freeformAddress,
-      distance: (course.dist / 1609.34).toFixed(2)
-    };
-    axios.post('/api/course', formData)
-      .then(response => {
-        console.log('Course added:', response.data);
-      })
-      .catch(error => {
-        console.error('Error adding course:', error);
-      });
-  }}}
+  const address = course.address.freeformAddress.split(', ');
+  const formData = {
+    courseName: course.poi ? course.poi.name : 'Unknown',
+    courseAddress: address[0],
+    city: address[1],
+    state: address[2],
+    country: "United States",
+    distance: (course.dist / 1609.34).toFixed(2)
+  };
+  axios.post('/api/course', formData)
+    .then(response => {
+      console.log('Course added:', response.data);
+    })
+    .catch(error => {
+      console.error('Error adding course:', error);
+    });
+}}}
 </script>
