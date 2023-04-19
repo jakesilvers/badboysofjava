@@ -62,7 +62,7 @@ export default {
                     }
                 })
                 .then((response) => {
-                    console.log("This is the league ID", response.data.leagueID);
+                    console.info("This is the league ID", response.data.leagueID);
                     router.push({ name: "league", params: { id: response.data.leagueID } });
                 })
                 .catch((error) => {

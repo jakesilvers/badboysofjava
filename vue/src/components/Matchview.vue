@@ -97,7 +97,7 @@ export default {
                 .get(`/api/league/${leagueID}`)
                 .then((response) => {
                     this.leagueName = response.data.leagueName;
-                    console.log("league id", response.data);
+                    console.info("league id", response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -122,8 +122,8 @@ export default {
                             }
                         )
                         .then((response) => {
-                            console.log("Player added to match.");
-                            console.log(response);
+                            console.info("Player added to match.");
+                            console.info(response);
                             location.reload();
                         })
                         .catch((error) => {
@@ -151,7 +151,7 @@ export default {
                     .get(`/api/match/${matchID}/user`)
                     .then((response) => {
                         this.matchPlayers = response.data;
-                        console.log("data", response.data);
+                        console.info("data", response.data);
                     })
                     .catch((error) => {
                         console.error(error);

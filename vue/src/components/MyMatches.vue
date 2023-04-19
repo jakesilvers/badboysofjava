@@ -41,7 +41,7 @@ export default {
             .get(`/api/course/league/matches/user/${this.$store.state.userID}`)
             .then((response) => {
                 this.matches = response.data;
-                console.log(response.data);
+                console.info(response.data);
             })
             .catch((error) => {
                 console.error(error);
