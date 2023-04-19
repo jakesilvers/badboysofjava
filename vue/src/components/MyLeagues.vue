@@ -54,7 +54,7 @@ export default {
                         const response = await axios.get(`/api/course/league/${league.leagueID}`);
                         league.courseName = response.data;
                     } catch (error) {
-                        console.log(error);
+                        console.info(error);
                     }
                 });
 
@@ -64,7 +64,7 @@ export default {
                 });
             })
             .catch((error) => {
-                console.log(error);
+                console.info(error);
             });
     }
 };
