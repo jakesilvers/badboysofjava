@@ -4,6 +4,7 @@ package com.techelevator.controller;
 import com.techelevator.dao.CourseDao;
 import com.techelevator.model.Course;
 import com.techelevator.model.NewCourseDto;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -40,7 +41,7 @@ public class CourseController {
     }
 
     @RequestMapping(path = "/api/course", method = RequestMethod.POST)
-    public Course createCourse(@RequestBody NewCourseDto dto) {
+    public Course createCourse(@RequestBody @NotNull NewCourseDto dto) {
         Course c = new Course();
         c.setCourseName(dto.getCourseName());
         c.setAddress(dto.getAddress());
