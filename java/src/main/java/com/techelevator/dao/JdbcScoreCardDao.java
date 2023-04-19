@@ -99,35 +99,20 @@ public class JdbcScoreCardDao implements ScoreCardDao {
 
         if (jdbcTemplate.update(sql, score, matchID, userID) == 1) {
 
+            ScoreCard thisScoreCard = scoreCardDao.getSpecificScoreCardForMatchAndUser(matchID, userID);
+            ScoreCard theOtherScoreCard = scoreCardDao.getTheOtherScoreCardForMatchAndUser(matchID, userID);
 
+            int thisScore = thisScoreCard.getScoreValue();
+            int otherScore = theOtherScoreCard.getScoreValue();
 
-            String sql1 = "SELECT username FROM users JOIN match_player ON users.user_id = match_player.player_id " +
-                    "WHERE match_id = ? ;";
-
-            SqlRowSet results = jdbcTemplate.queryForRowSet(sql1, matchID);
-
-            List<String> usersInMatch = new ArrayList<>();
-            while (results.next()){
-                usersInMatch.add(results.getString("username"));
+            if (thisScore < otherScore) {
+                recordDao.updateWinColumn(userID, matchID);
             }
-            String player1 = usersInMatch.get(0);
-            String player2 = usersInMatch.get(1);
-
-            int player1ID = userDao.findIdByUsername(player1);
-            int player2ID = userDao.findIdByUsername(player2);
-
-            int player1Score = scoreCardDao.getScore(player1ID, matchID);
-            int player2Score = scoreCardDao.getScore(player2ID, matchID);
-
-            if (player1Score < player2Score) {
-                recordDao.updateWinColumn(player1ID, matchID);
-                recordDao.updateLossColumn(player2ID, matchID);
+            if (thisScore > otherScore) {
+                recordDao.updateLossColumn(userID, matchID);
             }
 
-            if (player2Score < player1Score) {
-                recordDao.updateWinColumn(player2ID, matchID);
-                recordDao.updateLossColumn(player1ID, matchID);
-            }
+
             return true;
 
         }
@@ -149,6 +134,31 @@ public class JdbcScoreCardDao implements ScoreCardDao {
         return score;
 
     }
+
+    @Override
+    public ScoreCard getSpecificScoreCardForMatchAndUser(int matchID, int userID){
+        String sql = "SELECT * FROM scorecard WHERE match_id = ? AND player_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID, userID);
+
+        if (results.next()) {
+            ScoreCard s = mapRowToScoreCard(results);
+            return s;
+        }
+        return null;
+    }
+
+    @Override
+    public ScoreCard getTheOtherScoreCardForMatchAndUser(int matchID, int userID){
+        String sql = "SELECT * FROM scorecard WHERE match_id = ? AND player_id <> ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID, userID);
+
+        if (results.next()){
+            ScoreCard s = mapRowToScoreCard(results);
+            return s;
+        }
+
+        return null;
+     }
 
 
     private ScoreCard mapRowToScoreCard(SqlRowSet rs) {
