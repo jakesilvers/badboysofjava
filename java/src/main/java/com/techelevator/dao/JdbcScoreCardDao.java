@@ -101,17 +101,22 @@ public class JdbcScoreCardDao implements ScoreCardDao {
 
             ScoreCard thisScoreCard = scoreCardDao.getSpecificScoreCardForMatchAndUser(matchID, userID);
             ScoreCard theOtherScoreCard = scoreCardDao.getTheOtherScoreCardForMatchAndUser(matchID, userID);
+            int otherID = theOtherScoreCard.getPlayerID();
 
             int thisScore = thisScoreCard.getScoreValue();
             int otherScore = theOtherScoreCard.getScoreValue();
 
-            if (thisScore < otherScore) {
-                recordDao.updateWinColumn(userID, matchID);
-            }
-            if (thisScore > otherScore) {
-                recordDao.updateLossColumn(userID, matchID);
-            }
+            if (otherScore != 0) {
+                if (thisScore < otherScore) {
+                    recordDao.updateWinColumn(userID, matchID);
+                    recordDao.updateLossColumn(otherID, matchID);
 
+                }
+                if (thisScore > otherScore) {
+                    recordDao.updateLossColumn(userID, matchID);
+                    recordDao.updateWinColumn(otherID, matchID);
+                }
+            }
 
             return true;
 
@@ -136,7 +141,7 @@ public class JdbcScoreCardDao implements ScoreCardDao {
     }
 
     @Override
-    public ScoreCard getSpecificScoreCardForMatchAndUser(int matchID, int userID){
+    public ScoreCard getSpecificScoreCardForMatchAndUser(int matchID, int userID) {
         String sql = "SELECT * FROM scorecard WHERE match_id = ? AND player_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID, userID);
 
@@ -148,17 +153,17 @@ public class JdbcScoreCardDao implements ScoreCardDao {
     }
 
     @Override
-    public ScoreCard getTheOtherScoreCardForMatchAndUser(int matchID, int userID){
+    public ScoreCard getTheOtherScoreCardForMatchAndUser(int matchID, int userID) {
         String sql = "SELECT * FROM scorecard WHERE match_id = ? AND player_id <> ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, matchID, userID);
 
-        if (results.next()){
+        if (results.next()) {
             ScoreCard s = mapRowToScoreCard(results);
             return s;
         }
 
         return null;
-     }
+    }
 
 
     private ScoreCard mapRowToScoreCard(SqlRowSet rs) {
