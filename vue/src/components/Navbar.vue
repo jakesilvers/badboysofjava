@@ -5,6 +5,9 @@
         </router-link>
 
             <div>
+                 <a class="weather" href="#"> <router-link v-bind:to="{ name: 'golfCourses' }">Find Golf Courses</router-link></a>
+            </div>
+            <div>
                  <a class="weather" href="#"> <router-link v-bind:to="{ name: 'weather' }">Weather</router-link></a>
             </div>
         <div class="navbar-nav">

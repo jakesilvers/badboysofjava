@@ -100,7 +100,7 @@ const router = new Router({
             }},
             {
                 path: '/golf-courses',
-                name: 'GolfCourses',
+                name: 'golfCourses',
                 component: FindGolfCoursesNearYou,
                 meta: {
                     requiresAuth: true
