@@ -117,7 +117,7 @@ export default {
       axios
         .post("/api/course", formData)
         .then((response) => {
-          console.log("Course added:", response.data);
+          alert("Course added:", response.data);
           this.addedCourses.push(formData);
           this.successMessage = "Course added to your list of Golf Courses.";
         })
