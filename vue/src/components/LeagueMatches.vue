@@ -30,8 +30,8 @@
             </thead>
             <tbody>
                 <tr v-for="match in formattedMatches" scope="row" v-bind:key="match.id">
-                    <td>{{ matchPlayers[0] }}</td>
-                    <td>{{ matchPlayers[1] }}</td>
+                    <td>{{ matchPlayers[match.matchID][0] }}</td>
+                    <td>{{ matchPlayers[match.matchID][1] }}</td>
                     <td>{{ match.formattedDate }} @ {{ match.formattedTime }}</td>
                     <td>
                         <router-link :to="{ name: 'match', params: { id: match.matchID } }">
@@ -64,17 +64,20 @@ export default {
             .get(`/api/league/${this.$route.params.id}/match`)
             .then((response) => {
                 this.matches = response.data;
-                // Fetch match players for the first match in the list
-                const matchID = this.matches[0].matchID;
-                axios
-                    .get(`/api/match/${matchID}/user`)
-                    .then((response) => {
-                        this.matchPlayers = response.data;
-                        console.log(response.data);
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
+                console.log("Match data", response.data);
+                // Fetch match players for each match
+                for (let i = 0; i < this.matches.length; i++) {
+                    const matchID = this.matches[i].matchID;
+                    axios
+                        .get(`/api/match/${matchID}/user`)
+                        .then((response) => {
+                            this.$set(this.matchPlayers, matchID, response.data);
+                            console.log(response.data);
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                }
             })
             .catch((error) => {
                 console.error("Error retrieving matches: ", error);
@@ -97,7 +100,6 @@ export default {
         },
         createMatch() {
             const startTime = moment(`${this.date}T${this.time}`).format("YYYY-MM-DD HH:mm:ss");
-            console.log("Start time", startTime);
 
             const requestData = {
                 leagueID: this.$route.params.id,
@@ -108,7 +110,6 @@ export default {
             axios
                 .post("/api/match", requestData)
                 .then((response) => {
-                    console.log("Match created: ", response.data);
                     this.match = response.data;
                     this.createdMatch = false;
                     const matchingMatch = this.matches.find((match) => match.startTime === this.match.startTime);
