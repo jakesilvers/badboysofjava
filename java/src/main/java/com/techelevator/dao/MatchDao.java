@@ -22,7 +22,7 @@ public interface MatchDao {
 
     Match getMatchByID(int matchID);
 
-    List<List<String>> getMatchesByLeagueID(int leagueID);
+    List<Match> getMatchesByLeagueID(int leagueID);
 
     int getLeagueIDByMatchID(int matchID);
 
