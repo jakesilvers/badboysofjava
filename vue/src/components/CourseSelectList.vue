@@ -1,7 +1,7 @@
 <template>
     <select class="custom-select d-block w-100" v-model="selectedCourse">
         <option value="">Select an option</option>
-        <option v-for="course in courses" :key="course.courseID" :value="course.courseID">{{ course.courseName }} {{ course.courseID }}</option>
+        <option v-for="course in courses" :key="course.courseID" :value="course.courseID">{{ course.courseName }}</option>
     </select>
 </template>
 

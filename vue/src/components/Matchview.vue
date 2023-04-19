@@ -12,21 +12,40 @@
                             </div>
                             <div class="col-4">
                                 <h5>League:</h5>
-                                <p>League</p>
+                                <p>{{ leagueName }}</p>
                             </div>
                             <div class="col-4">
                                 <h5>Course:</h5>
                                 <p>League</p>
                             </div>
                         </div>
-                        <button @click="addBtn" v-if="addPlayerBtn" class="btn btn-primary">Add Player</button>
+                        <button @click="addBtn" v-if="addPlayerBtn" v-show="!isMatchFull" class="btn btn-primary">Add Player</button>
                         <label for="player_select"></label>
                         <form v-if="!addPlayerBtn" @submit.prevent="addPlayerToMatch">
                             <select class="mt-2 custom-select d-block w-100" name="username" id="username" v-model="selectedUser">
                                 <option value="">Please select a user</option>
                                 <option v-for="user in users" :value="user" :key="user.id">{{ user }}</option>
                             </select>
-                            <button class="btn btn-primary mt-2" type="submit">Submit</button>
+                            <button class="btn btn-primary mt-2" @click="submitScores" type="submit">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h1>Scorecard</h1>
+                        <form @submit.prevent="updateScorecard">
+                            <h4>{{ matchPlayers[0] }}</h4>
+                            <input class="form-control w-25" placeholder="score" type="number" v-model="player1Score" />
+                            <button class="btn btn-primary mt-2">Submit</button>
+                        </form>
+                        <form @submit.prevent="updateScorecard">
+                            <h4 class="mt-4">{{ matchPlayers[1] }}</h4>
+                            <input class="form-control w-25" placeholder="score" type="number" v-model="player2Score" />
+                            <button class="btn btn-primary mt-2">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -38,17 +57,69 @@
 <script>
 import axios from "axios";
 export default {
-    components: {},
     data() {
         return {
-            match: null,
+            match: [],
             users: [],
             selectedUser: "",
             addPlayerBtn: true,
-            matchPlayers: []
+            matchPlayers: [],
+            leagueName: "",
+            player1Score: 0,
+            player2Score: 0
         };
     },
     methods: {
+        updateScorecard: function () {
+            const matchID = this.match.id;
+            const player1ID = this.match.players[0].id;
+            const player2ID = this.match.players[1].id;
+            const player1Score = this.player1Score;
+            const player2Score = this.player2Score;
+
+            axios
+                .get(`/api/scorecards/match/${matchID}`)
+                .then((response) => {
+                    const scorecards = response.data;
+
+                    // Find the scorecard for player 1
+                    const player1Scorecard = scorecards.find((scorecard) => scorecard.playerID === player1ID);
+
+                    // Update the score value if the scorecard exists
+                    if (player1Scorecard) {
+                        axios
+                            .put(`/api/scorecards/${player1Scorecard.id}`, {
+                                scoreValue: player1Score
+                            })
+                            .then((response) => {
+                                console.log(response.data);
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                    }
+
+                    // Find the scorecard for player 2
+                    const player2Scorecard = scorecards.find((scorecard) => scorecard.playerID === player2ID);
+
+                    // Update the score value if the scorecard exists
+                    if (player2Scorecard) {
+                        axios
+                            .put(`/api/scorecards/${player2Scorecard.id}`, {
+                                scoreValue: player2Score
+                            })
+                            .then((response) => {
+                                console.log(response.data);
+                            })
+                            .catch((error) => {
+                                console.error(error);
+                            });
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
         // FORMAT THE DATE
         formatDate(dateString) {
             const options = {
@@ -72,9 +143,22 @@ export default {
                     console.error(error);
                 });
         },
+        // GET LEAGUE NAME
+        fetchLeagueName(leagueID) {
+            axios
+                .get(`/api/league/${leagueID}`)
+                .then((response) => {
+                    this.leagueName = response.data.leagueName;
+                    console.log("league id", response.data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+        // ADD PLAYER TO MATCH
         addPlayerToMatch() {
             const matchID = this.$route.params.id;
-            const userName = this.selectedUser; // assuming the selectedUser is the username
+            const userName = this.selectedUser;
             axios
                 .get(`/api/user/${userName}`)
                 .then((response) => {
@@ -90,13 +174,11 @@ export default {
                             }
                         )
                         .then((response) => {
-                            // handle success
-
                             console.log("Player added to match.");
                             console.log(response);
+                            location.reload();
                         })
                         .catch((error) => {
-                            // handle error
                             console.error(error);
                         });
                 })
@@ -128,13 +210,21 @@ export default {
                         console.error(error);
                     });
 
-                // Fetch users for league
+                // FETCH USERS FOR LEAGUE
                 const leagueID = this.match.leagueID;
                 this.fetchUsersForLeague(leagueID);
+
+                // FETCH LEAGUE NAME
+                this.fetchLeagueName(leagueID);
             })
             .catch((error) => {
                 console.error(error);
             });
+    },
+    computed: {
+        isMatchFull() {
+            return this.matchPlayers.length === 2;
+        }
     }
 };
 </script>

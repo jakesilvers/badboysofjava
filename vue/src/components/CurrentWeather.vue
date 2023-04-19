@@ -22,7 +22,7 @@
                     <p class="card-text">Location: {{ location }}</p>
                     <p class="card-text">Current Temperature: {{ temperature }}°F</p>
                     <p class="card-text">Feels like: {{ feelsLike }}°F</p>
-                    <p class="card-text">Conditions: {{ conditions }}</p>
+                    <p class="card-text">Conditions: {{ weatherConditions }}</p>
                     <p class="card-text">Humidity: {{ humidity }}%</p>
                     <p class="card-text">Wind Speed: {{ windSpeed }} mph</p>
                   </div>
@@ -44,10 +44,42 @@ export default {
       location: '',
       temperature: '',
       feelsLike: '',
-      conditions: '',
+      weatherCode: '',
       humidity: '',
       windSpeed: ''
     };
+  },
+  computed: {
+    weatherConditions() {
+      const weatherCode = this.weatherCode;
+      const weatherCodes = {
+        '0': 'Unknown',
+        '1000': 'Clear, Sunny',
+        '1100': 'Mostly Clear',
+        '1101': 'Partly Cloudy',
+        '1102': 'Mostly Cloudy',
+        '1001': 'Cloudy',
+        '2000': 'Fog',
+        '2100': 'Light Fog',
+        '4000': 'Drizzle',
+        '4001': 'Rain',
+        '4200': 'Light Rain',
+        '4201': 'Heavy Rain',
+        '5000': 'Snow',
+        '5001': 'Flurries',
+        '5100': 'Light Snow',
+        '5101': 'Heavy Snow',
+        '6000': 'Freezing Drizzle',
+        '6001': 'Freezing Rain',
+        '6200': 'Light Freezing Rain',
+        '6201': 'Heavy Freezing Rain',
+        '7000': 'Ice Pellets',
+        '7101': 'Heavy Ice Pellets',
+        '7102': 'Light Ice Pellets',
+        '8000': 'Thunderstorm'
+      };
+      return weatherCodes[weatherCode] || '';
+    }
   },
   methods: {
     getWeather() {
@@ -60,7 +92,7 @@ export default {
           this.location = response.location.name + ", " + response.location.countryCode;
           this.temperature = response.data.values.temperature.toFixed(0);
           this.feelsLike = response.data.values.temperatureApparent.toFixed(0);
-          this.conditions = response.data.values.weatherCode;
+          this.weatherCode = response.data.values.weatherCodes;
           this.humidity = response.data.values.humidity;
           this.windSpeed = response.data.values.windSpeed.toFixed(1);
         })

@@ -67,6 +67,22 @@ public class JdbcCourseDao implements CourseDao {
 
     }
 
+    @Override
+    public int createCourse(Course c) {
+        String sql = "INSERT INTO course (course_name, address, city, state, country) " +
+                "VALUES (?, ?, ?, ?, ?) RETURNING course_id;";
+        int courseID;
+        try {
+            courseID = jdbcTemplate.queryForObject(sql, int.class, c.getCourseName(), c.getAddress(), c.getCity(), c.getState(), c.getCountry());
+        } catch (NullPointerException e) {
+            throw new NullPointerException("Unable to create course");
+        }
+
+        return courseID;
+
+
+    }
+
     private Course mapRowToCourse(SqlRowSet rs) {
         Course c = new Course();
 

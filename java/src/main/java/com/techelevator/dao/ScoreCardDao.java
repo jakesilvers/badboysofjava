@@ -22,5 +22,9 @@ public interface ScoreCardDao {
 
     int getScore(int playerID, int matchID);
 
+    ScoreCard getSpecificScoreCardForMatchAndUser(int userID, int matchID);
+
+    ScoreCard getTheOtherScoreCardForMatchAndUser(int userID, int matchID);
+
 
 }
