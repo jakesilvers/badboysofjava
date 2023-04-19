@@ -128,3 +128,15 @@ export default {
   },
 };
 </script>
+<style scoped>
+body {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: url(https://images.pexels.com/photos/914682/pexels-photo-914682.jpeg);
+  background-size: cover;
+  box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.7);
+}
+</style>
