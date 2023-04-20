@@ -139,4 +139,24 @@ public class JdbcLeagueDao implements LeagueDao {
         return success > 0;
     }
 
+    @Override
+    public List<List<String>> getAllUsernamesWinsAndLossesByLeague(int leagueID) {
+        List<List<String>> userWinLoss = new ArrayList<>();
+
+        String sql = "SELECT username, win, loss FROM users JOIN record ON users.user_id = " +
+                "record.player_id WHERE league_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, leagueID);
+
+        while (results.next()) {
+            List<String> specificUserWinLoss = new ArrayList<>();
+            specificUserWinLoss.add(results.getString("username"));
+            specificUserWinLoss.add(results.getString("win"));
+            specificUserWinLoss.add(results.getString("loss"));
+            userWinLoss.add(specificUserWinLoss);
+        }
+
+        return userWinLoss;
+
+    }
+
 }

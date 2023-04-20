@@ -28,7 +28,7 @@ create table league(
 	description varchar(200) not null,
 	course_id int,
 	admin_id int,
-	
+
 	constraint fk_home_course_id foreign key (course_id) references course (course_id),
 	constraint fk_league_admin_id foreign key (admin_id) references users (user_id)
 );
@@ -36,7 +36,7 @@ create table league(
 create table league_player(
 	league_id int,
 	player_id int,
-	
+
 	constraint league_id foreign key (league_id) references league (league_id),
 	constraint player_id foreign key (player_id) references users (user_id)
 );
@@ -46,14 +46,14 @@ create table match(
 	league_id int,
 	start_time varchar (30) not null,
 	is_completed boolean not null,
-	
+
 	constraint league_id foreign key (league_id) references league (league_id)
 );
 
 create table match_player(
 	match_id int,
 	player_id int,
-	
+
 	constraint match_id foreign key (match_id) references match (match_id),
 	constraint player_id foreign key (player_id) references users (user_id)
 );
@@ -63,7 +63,7 @@ create table scorecard(
 	match_id int,
 	player_id int,
 	score int not null,
-	
+
 	constraint match_id foreign key (match_id) references match (match_id),
 	constraint player_id foreign key (player_id) references users (user_id)
 );
@@ -73,7 +73,7 @@ create table invitations(
 	league_id int,
 	player_id int,
 	invitation_status varchar(25),
-	
+
 	constraint league_id foreign key (league_id) references league (league_id),
 	constraint player_id foreign key (player_id) references users (user_id)
 );
@@ -84,7 +84,7 @@ create table record(
 	league_id int,
 	win int,
 	loss int,
-	
+
 	constraint league_id foreign key (league_id) references league (league_id),
 	constraint player_id foreign key (player_id) references users (user_id)
 );
