@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-2">
         <div class="row">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h1 class="mb-4">{{ matchPlayers[0] }} vs {{ matchPlayers[1] }}</h1>
@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="row mt-2">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h1>Scorecard</h1>
