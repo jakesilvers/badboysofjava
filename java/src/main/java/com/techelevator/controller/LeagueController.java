@@ -81,6 +81,11 @@ public class LeagueController {
         return leagueDao.getLeagueByID(leagueID);
     }
 
+    @GetMapping("api/league/{leagueID}/record")
+    public List<List<String>> getRecordForUserByLeague(@PathVariable int leagueID) {
+        return leagueDao.getAllUsernamesWinsAndLossesByLeague(leagueID);
+    }
+
 
 
 
