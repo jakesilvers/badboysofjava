@@ -1,29 +1,27 @@
 <template>
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <h1>Matches</h1>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>League</th>
-                            <th>Date</th>
-                            <th>View</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="match in matches" :key="match.id">
-                            <td>{{ match[1] }}</td>
-                            <td>{{ formatDate(match[2]) }}</td>
-                            <td>
-                                <router-link :to="{ name: 'match', params: { id: match[3] } }">
-                                    <button class="btn btn-primary">View</button>
-                                </router-link>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <div class="card">
+        <div class="card-body">
+            <h1>Matches</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>League</th>
+                        <th>Date</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="match in matches" :key="match.id">
+                        <td>{{ match[1] }}</td>
+                        <td>{{ formatDate(match[2]) }}</td>
+                        <td>
+                            <router-link :to="{ name: 'match', params: { id: match[3] } }">
+                                <button class="btn btn-primary">View</button>
+                            </router-link>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </template>

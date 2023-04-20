@@ -1,27 +1,15 @@
 <template>
-    <!-- <div class="home">
-        <Sidebar />
-
-        <div class="container">
-            <div class="row">
-                <div class="col-6">
-                    <my-leagues />
-                </div>
-                <div class="col-6">
-                    <Invite />
-                    <upcoming-matches />
-                </div>
-            </div>
-        </div>
-    </div> -->
-
     <div>
         <Navbar />
         <div class="container mt-2">
             <invite />
             <div class="row">
-                <my-leagues />
-                <my-matches />
+                <div class="col-lg-6 col-md-12 mt-2">
+                    <my-leagues />
+                </div>
+                <div class="col-lg-6 col-md-12 mt-2">
+                    <my-matches />
+                </div>
             </div>
         </div>
     </div>
