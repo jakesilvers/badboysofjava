@@ -2,6 +2,7 @@ package com.techelevator.dao;
 
 import com.techelevator.model.League;
 import com.techelevator.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,9 @@ import java.util.List;
 
 @Component
 public class JdbcLeagueDao implements LeagueDao {
+
+    @Autowired
+    private RecordDao recordDao;
 
     private JdbcUserDao jdbcUserDao;
     private JdbcTemplate jdbcTemplate;
@@ -87,6 +91,8 @@ public class JdbcLeagueDao implements LeagueDao {
         }
 
         addUserIntoLeaguePlayer(leagueID, l.getAdminID());
+        recordDao.createRecord(l.getAdminID(), leagueID);
+
 
         return leagueID;
     }
@@ -137,6 +143,26 @@ public class JdbcLeagueDao implements LeagueDao {
         }
 
         return success > 0;
+    }
+
+    @Override
+    public List<List<String>> getAllUsernamesWinsAndLossesByLeague(int leagueID) {
+        List<List<String>> userWinLoss = new ArrayList<>();
+
+        String sql = "SELECT username, win, loss FROM users JOIN record ON users.user_id = " +
+                "record.player_id WHERE league_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, leagueID);
+
+        while (results.next()) {
+            List<String> specificUserWinLoss = new ArrayList<>();
+            specificUserWinLoss.add(results.getString("username"));
+            specificUserWinLoss.add(results.getString("win"));
+            specificUserWinLoss.add(results.getString("loss"));
+            userWinLoss.add(specificUserWinLoss);
+        }
+
+        return userWinLoss;
+
     }
 
 }

@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-2">
         <div class="row">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h1 class="mb-4">{{ matchPlayers[0] }} vs {{ matchPlayers[1] }}</h1>
@@ -33,16 +33,16 @@
             </div>
         </div>
         <div class="row mt-2">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h1>Scorecard</h1>
-                        <form @submit.prevent="updateScorecard">
+                        <form @submit.prevent="updateScore(0, player1Score)">
                             <h4>{{ matchPlayers[0] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player1Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
                         </form>
-                        <form @submit.prevent="updateScorecard">
+                        <form @submit.prevent="updateScore(1, player2Score)">
                             <h4 class="mt-4">{{ matchPlayers[1] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player2Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
@@ -64,10 +64,54 @@ export default {
             selectedUser: "",
             addPlayerBtn: true,
             matchPlayers: [],
-            leagueName: ""
+            leagueName: "",
+            player1Score: null,
+            player2Score: null
         };
     },
     methods: {
+        updateScore(playerIndex, scoreValue) {
+            const matchID = this.$route.params.id;
+            axios
+                .get(`/match/${matchID}/scorecards`)
+                .then((response) => {
+                    const scorecardID = response.data[playerIndex].scoreCardID;
+                    const playerID = response.data[playerIndex].playerID;
+                    console.log(scorecardID, matchID, "player id ", playerID);
+
+                    axios
+                        .put(
+                            `/api/scorecards/${scorecardID}`,
+                            {
+                                scoreValue: scoreValue,
+                                playerID: playerID,
+                                matchID: matchID
+                            },
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${this.$store.state.token}`
+                                }
+                            }
+                        )
+                        .then((response) => {
+                            console.log(response.data);
+                            // Update the score in the data object based on the playerIndex
+                            if (playerIndex === 0) {
+                                this.player1Score = scoreValue;
+                            } else if (playerIndex === 1) {
+                                this.player2Score = scoreValue;
+                            }
+                            location.reload();
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+
         // FORMAT THE DATE
         formatDate(dateString) {
             const options = {
@@ -141,6 +185,49 @@ export default {
     },
     mounted() {
         const matchID = this.$route.params.id;
+        // Fetch the scorecard for player 1
+        axios
+            .get(`/match/${matchID}/scorecards`)
+            .then((response) => {
+                const scorecardID = response.data[0].scoreCardID;
+                axios
+                    .get(`/api/scorecards/${scorecardID}`, {
+                        headers: {
+                            Authorization: `Bearer ${this.$store.state.token}`
+                        }
+                    })
+                    .then((response) => {
+                        this.player1Score = response.data.scoreValue;
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        // Fetch the scorecard for player 2
+        axios
+            .get(`/match/${matchID}/scorecards`)
+            .then((response) => {
+                const scorecardID = response.data[1].scoreCardID;
+                axios
+                    .get(`/api/scorecards/${scorecardID}`, {
+                        headers: {
+                            Authorization: `Bearer ${this.$store.state.token}`
+                        }
+                    })
+                    .then((response) => {
+                        this.player2Score = response.data.scoreValue;
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
         axios
             .get(`/api/match/${matchID}`)
             .then((response) => {
@@ -183,12 +270,12 @@ export default {
 }
 
 button {
-    background-color: #4ade80;
-    border: 1px solid #22c55e;
+    background-color: #166534;
+    border: 1px solid #166534;
 }
 
 button:hover {
-    background-color: #16a34a;
+    background-color: #166534;
     border: 1px solid #166534;
     cursor: pointer;
 }
