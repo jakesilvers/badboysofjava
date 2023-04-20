@@ -20,10 +20,14 @@ import MyMatches from "../components/MyMatches.vue";
 import MyLeagues from "../components/MyLeagues.vue";
 import Navbar from "../components/Navbar.vue";
 import Invite from "../components/Invite.vue";
+
 export default {
     components: { Navbar, MyMatches, MyLeagues, Invite },
-    name: "home"
+    name: "home",
+    
 };
+
+
 </script>
 
 <style scoped></style>

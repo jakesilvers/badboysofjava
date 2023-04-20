@@ -12,6 +12,8 @@ import CurrentWeather from "../components/CurrentWeather"
 import Match from "../views/Match";
 import FindGolfCoursesNearYou from "../components/FindGolfCoursesNearYou";
 
+
+
 Vue.use(Router);
 
 /**
