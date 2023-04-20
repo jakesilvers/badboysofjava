@@ -34,7 +34,7 @@ img {
 }
 
 img:hover {
-    background-color: green;
+    background-color: rgb(54, 241, 54);
 }
 .navbar {
     background-color: green !important;
