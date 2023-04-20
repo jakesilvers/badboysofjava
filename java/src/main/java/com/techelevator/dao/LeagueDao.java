@@ -26,4 +26,5 @@ public interface LeagueDao {
 
     League getLeagueByID(int leagueID);
 
+    List<List<String>> getAllUsernamesWinsAndLossesByLeague(int leagueID);
 }
