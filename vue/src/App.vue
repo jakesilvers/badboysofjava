@@ -5,8 +5,14 @@
             > -->
 
         <router-view />
-    </div>
+      </div>
+        
+
 </template>
+
+
+
+
 
 <style>
 
@@ -15,6 +21,8 @@
     text-align: center;
     margin-top: 30px;
 }
+
+
 
 
 </style>
