@@ -1,7 +1,13 @@
 <template>
     <div>
         <Navbar />
-        <new-league-form />
+        <div class="container mt-2">
+            <div class="row">
+                <div class="col-lg-6 col-md-12">
+                    <new-league-form />
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -16,4 +22,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.col-md-12 {
+    margin-left: auto;
+    margin-right: auto;
+}
+</style>

@@ -33,10 +33,7 @@ img {
     max-width: 100px;
 }
 
-img:hover {
-    background-color: green;
-}
 .navbar {
-    background-color: green !important;
+    background-color: #166534;
 }
 </style>

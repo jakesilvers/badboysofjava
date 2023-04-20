@@ -395,13 +395,14 @@ label {
     margin-bottom: 5px;
 }
 button {
-    background-color: #4ade80;
-    border: 1px solid #22c55e;
+    background-color: #166534;
+    border: 1px solid #166534;
 }
 
 button:hover {
-    background-color: #16a34a;
+    background-color: #166534;
     border: 1px solid #166534;
+    cursor: pointer;
 }
 body {
     width: 100vw;

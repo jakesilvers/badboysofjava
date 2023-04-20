@@ -126,14 +126,13 @@ export default {
 </script>
 <style scoped>
 button {
-    background-color: #4ade80 !important;
-    border: 1px solid #22c55e !important;
+    background-color: #166534;
+    border: 1px solid #166534;
 }
 
-button:hover,
-button:focus {
-    background-color: #16a34a !important;
-    border: 1px solid #166534 !important;
+button:hover {
+    background-color: #166534;
+    border: 1px solid #166534;
     cursor: pointer;
 }
 </style>

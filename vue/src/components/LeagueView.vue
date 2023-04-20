@@ -1,5 +1,5 @@
 <template>
-    <div class="container mx-auto mt-2">
+    <div class="container mt-2">
         <div class="row">
             <div class="col-lg-6 col-md-12">
                 <league-info />
@@ -12,6 +12,7 @@
             <div class="col-lg-6 col-md-12 mt-2">
                 <league-matches />
             </div>
+            <div class="col-lg-6 col-md-12 mt-2"></div>
         </div>
     </div>
 </template>
