@@ -1,22 +1,24 @@
 <template>
-    <div class="card-body">
-        <h1>{{ league.leagueName }}</h1>
-        <p class="description">
-            {{ league.description }}
-        </p>
-        <p><strong>Course:</strong></p>
-        <p class="course">
-            <em>{{ courseName }}</em>
-        </p>
-        <p><strong>Players:</strong></p>
-        <p class="players">
-            <span v-for="user in users" :key="user.id"> {{ user }}</span>
-        </p>
-        <label for="username"></label>
-        <p v-if="usernameError" class="text-danger mt-0 mb-2">{{ usernameError }}</p>
-        <p v-if="inviteSent" class="text-success mt-0 mb-2">Invite Sent!</p>
-        <div><input v-model="username" class="form-control" type="text" placeholder="username" /></div>
-        <button @click="invitePlayers" class="btn btn-primary mt-2">Invite Players</button>
+    <div class="card">
+        <div class="card-body">
+            <h1>{{ league.leagueName }}</h1>
+            <p class="description">
+                {{ league.description }}
+            </p>
+            <p><strong>Course:</strong></p>
+            <p class="course">
+                <em>{{ courseName }}</em>
+            </p>
+            <p><strong>Players:</strong></p>
+            <p class="players">
+                <span v-for="user in users" :key="user.id"> {{ user }}</span>
+            </p>
+            <label for="username"></label>
+            <p v-if="usernameError" class="text-danger mt-0 mb-2">{{ usernameError }}</p>
+            <p v-if="inviteSent" class="text-success mt-0 mb-2">Invite Sent!</p>
+            <div><input v-model="username" class="form-control" type="text" placeholder="username" /></div>
+            <button @click="invitePlayers" class="btn btn-primary mt-2">Invite Players</button>
+        </div>
     </div>
 </template>
 
@@ -50,7 +52,7 @@ export default {
                 this.courseName = response.data;
             })
             .catch((error) => {
-                console.log(error);
+                console.info(error);
             });
         axios
             .get(`/api/league/${leagueID}/user`)
@@ -58,7 +60,7 @@ export default {
                 this.users = response.data;
             })
             .catch((error) => {
-                console.log(error);
+                console.info(error);
             });
     },
     methods: {
@@ -97,7 +99,7 @@ export default {
                             }
                         )
                         .then((response) => {
-                            console.log(response.data);
+                            console.info(response.data);
                             this.username = "";
                             this.inviteSent = true;
                             setTimeout(() => {

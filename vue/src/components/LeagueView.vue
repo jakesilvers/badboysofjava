@@ -1,27 +1,19 @@
 <template>
-   
     <div class="container mx-auto mt-2">
         <div class="row">
-            <div class="col-6">
-                <div class="card">
-                    <league-info />
-                </div>
+            <div class="col-lg-6 col-md-12">
+                <league-info />
             </div>
-            <div class="col-6">
-                <div class="card">
-                    <scoreboard />
-                </div>
+            <div class="col-lg-6 col-md-12 mt-2">
+                <scoreboard />
             </div>
         </div>
-        <div class="row">
-            <div class="col-6">
-                <div class="card">
-                    <league-matches />
-                </div>
+        <div class="row mt-2">
+            <div class="col-lg-6 col-md-12 mt-2">
+                <league-matches />
             </div>
         </div>
     </div>
-    
 </template>
 
 <script>
@@ -50,7 +42,7 @@ export default {
                 this.league = response.data;
             })
             .catch((error) => {
-                console.log(error);
+                console.info(error);
             });
         axios
             .get(`/api/course/league/${leagueID}`)
@@ -58,7 +50,7 @@ export default {
                 this.courseName = response.data;
             })
             .catch((error) => {
-                console.log(error);
+                console.info(error);
             });
         axios
             .get(`/api/league/${leagueID}/user`)
@@ -66,7 +58,7 @@ export default {
                 this.users = response.data;
             })
             .catch((error) => {
-                console.log(error);
+                console.info(error);
             });
     },
     methods: {
@@ -105,7 +97,7 @@ export default {
                             }
                         )
                         .then((response) => {
-                            console.log(response.data);
+                            console.info(response.data);
                             this.username = "";
                             this.inviteSent = true;
                             setTimeout(() => {
@@ -113,7 +105,7 @@ export default {
                             }, 3000);
                         })
                         .catch((error) => {
-                            console.log(error);
+                            console.info(error);
                         });
                 })
                 .catch(() => {

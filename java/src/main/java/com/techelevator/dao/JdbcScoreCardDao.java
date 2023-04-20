@@ -118,6 +118,8 @@ public class JdbcScoreCardDao implements ScoreCardDao {
                 }
             }
 
+
+
             return true;
 
         }

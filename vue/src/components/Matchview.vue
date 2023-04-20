@@ -1,7 +1,7 @@
 <template>
     <div class="container mt-2">
         <div class="row">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h1 class="mb-4">{{ matchPlayers[0] }} vs {{ matchPlayers[1] }}</h1>
@@ -33,16 +33,16 @@
             </div>
         </div>
         <div class="row mt-2">
-            <div class="col-6">
+            <div class="col-lg-6 col-md-12">
                 <div class="card">
                     <div class="card-body">
                         <h1>Scorecard</h1>
-                        <form @submit.prevent="updateScorecard">
+                        <form @submit.prevent="updateScore(0, 11)">
                             <h4>{{ matchPlayers[0] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player1Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
                         </form>
-                        <form @submit.prevent="updateScorecard">
+                        <form @submit.prevent="updateScore(1, 11)">
                             <h4 class="mt-4">{{ matchPlayers[1] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player2Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
@@ -64,10 +64,48 @@ export default {
             selectedUser: "",
             addPlayerBtn: true,
             matchPlayers: [],
-            leagueName: ""
+            leagueName: "",
+            player1Score: null,
+            player2Score: null
         };
     },
     methods: {
+        updateScore(playerIndex) {
+            const matchID = this.$route.params.id;
+            axios
+                .get(`/match/${matchID}/scorecards`)
+                .then((response) => {
+                    const scorecardID = response.data[playerIndex].scoreCardID;
+                    const playerID = response.data[playerIndex].playerID;
+                    console.log(scorecardID, matchID, "player id ", playerID);
+
+                    axios
+                        .put(
+                            `/api/scorecards/${scorecardID}`,
+                            {
+                                scoreValue: playerIndex === 0 ? this.player1Score : this.player2Score,
+                                playerID: playerID,
+                                matchID: matchID
+                            },
+                            {
+                                headers: {
+                                    Authorization: `Bearer ${this.$store.state.token}`
+                                }
+                            }
+                        )
+                        .then((response) => {
+                            console.log(response.data);
+                            location.reload();
+                        })
+                        .catch((error) => {
+                            console.error(error);
+                        });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        },
+
         // FORMAT THE DATE
         formatDate(dateString) {
             const options = {
@@ -97,7 +135,7 @@ export default {
                 .get(`/api/league/${leagueID}`)
                 .then((response) => {
                     this.leagueName = response.data.leagueName;
-                    console.log("league id", response.data);
+                    console.info("league id", response.data);
                 })
                 .catch((error) => {
                     console.error(error);
@@ -122,8 +160,8 @@ export default {
                             }
                         )
                         .then((response) => {
-                            console.log("Player added to match.");
-                            console.log(response);
+                            console.info("Player added to match.");
+                            console.info(response);
                             location.reload();
                         })
                         .catch((error) => {
@@ -141,6 +179,49 @@ export default {
     },
     mounted() {
         const matchID = this.$route.params.id;
+        // Fetch the scorecard for player 1
+        axios
+            .get(`/match/${matchID}/scorecards`)
+            .then((response) => {
+                const scorecardID = response.data[0].scoreCardID;
+                axios
+                    .get(`/api/scorecards/${scorecardID}`, {
+                        headers: {
+                            Authorization: `Bearer ${this.$store.state.token}`
+                        }
+                    })
+                    .then((response) => {
+                        this.player1Score = response.data.scoreValue;
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        // Fetch the scorecard for player 2
+        axios
+            .get(`/match/${matchID}/scorecards`)
+            .then((response) => {
+                const scorecardID = response.data[1].scoreCardID;
+                axios
+                    .get(`/api/scorecards/${scorecardID}`, {
+                        headers: {
+                            Authorization: `Bearer ${this.$store.state.token}`
+                        }
+                    })
+                    .then((response) => {
+                        this.player2Score = response.data.scoreValue;
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
         axios
             .get(`/api/match/${matchID}`)
             .then((response) => {
@@ -151,7 +232,7 @@ export default {
                     .get(`/api/match/${matchID}/user`)
                     .then((response) => {
                         this.matchPlayers = response.data;
-                        console.log("data", response.data);
+                        console.info("data", response.data);
                     })
                     .catch((error) => {
                         console.error(error);
