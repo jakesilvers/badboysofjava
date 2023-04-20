@@ -5,56 +5,16 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th scope="col">Rank</th>
                     <th scope="col">Username</th>
                     <th scope="col">Wins</th>
-                    <th scope="col">Draws</th>
-
                     <th scope="col">Losses</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>nchesko</td>
-                    <td>3</td>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>nchesko</td>
-                    <td>3</td>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>nchesko</td>
-                    <td>3</td>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>nchesko</td>
-                    <td>3</td>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>nchesko</td>
-                    <td>3</td>
-                    <td>1</td>
-                    <td>1</td>
-                </tr>
-                <tr>
-                    <th scope="row">6</th>
-                    <td>nchesko</td>
-                    <td>3</td>
-                    <td>1</td>
-                    <td>1</td>
+                <tr v-for="player in players" :key="player[0]">
+                    <td>{{ player && player[0] ? player[0] : "" }}</td>
+                    <td>{{ player && player[1] ? player[1] : "" }}</td>
+                    <td>{{ player && player[2] ? player[2] : "" }}</td>
                 </tr>
             </tbody>
         </table>
@@ -62,11 +22,32 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+
+export default {
+    data() {
+        return {
+            players: []
+        };
+    },
+    mounted() {
+        this.fetchPlayers();
+    },
+    methods: {
+        fetchPlayers() {
+            const leagueID = this.$route.params.id;
+            axios
+                .get(`api/league/${leagueID}/record`)
+                .then((response) => {
+                    this.players = response.data;
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }
+};
 </script>
 
-<style scoped>
-.card-body {
-    height: 424px;
-}
-</style>
+<style scoped></style>

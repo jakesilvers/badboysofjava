@@ -37,12 +37,12 @@
                 <div class="card">
                     <div class="card-body">
                         <h1>Scorecard</h1>
-                        <form @submit.prevent="updateScore(0, player1Score)">
+                        <form @submit.prevent="updateScore(0, 11)">
                             <h4>{{ matchPlayers[0] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player1Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
                         </form>
-                        <form @submit.prevent="updateScore(1, player2Score)">
+                        <form @submit.prevent="updateScore(1, 11)">
                             <h4 class="mt-4">{{ matchPlayers[1] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player2Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
@@ -70,19 +70,20 @@ export default {
         };
     },
     methods: {
-        updateScore(playerIndex, newScore) {
+        updateScore(playerIndex) {
             const matchID = this.$route.params.id;
-            const playerID = playerIndex === 0 ? 1 : 2;
             axios
                 .get(`/match/${matchID}/scorecards`)
                 .then((response) => {
-                    const scorecardID = response.data[playerID].scoreCardID;
-                    console.log(scorecardID);
+                    const scorecardID = response.data[playerIndex].scoreCardID;
+                    const playerID = response.data[playerIndex].playerID;
+                    console.log(scorecardID, matchID, "player id ", playerID);
+
                     axios
                         .put(
                             `/api/scorecards/${scorecardID}`,
                             {
-                                score: newScore,
+                                scoreValue: playerIndex === 0 ? this.player1Score : this.player2Score,
                                 playerID: playerID,
                                 matchID: matchID
                             },
@@ -94,6 +95,7 @@ export default {
                         )
                         .then((response) => {
                             console.log(response.data);
+                            location.reload();
                         })
                         .catch((error) => {
                             console.error(error);
@@ -177,6 +179,49 @@ export default {
     },
     mounted() {
         const matchID = this.$route.params.id;
+        // Fetch the scorecard for player 1
+        axios
+            .get(`/match/${matchID}/scorecards`)
+            .then((response) => {
+                const scorecardID = response.data[0].scoreCardID;
+                axios
+                    .get(`/api/scorecards/${scorecardID}`, {
+                        headers: {
+                            Authorization: `Bearer ${this.$store.state.token}`
+                        }
+                    })
+                    .then((response) => {
+                        this.player1Score = response.data.scoreValue;
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
+
+        // Fetch the scorecard for player 2
+        axios
+            .get(`/match/${matchID}/scorecards`)
+            .then((response) => {
+                const scorecardID = response.data[1].scoreCardID;
+                axios
+                    .get(`/api/scorecards/${scorecardID}`, {
+                        headers: {
+                            Authorization: `Bearer ${this.$store.state.token}`
+                        }
+                    })
+                    .then((response) => {
+                        this.player2Score = response.data.scoreValue;
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            })
+            .catch((error) => {
+                console.error(error);
+            });
         axios
             .get(`/api/match/${matchID}`)
             .then((response) => {
