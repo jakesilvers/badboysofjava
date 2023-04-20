@@ -1,39 +1,35 @@
 <template>
     <div>
         <navbar />
-        <body>
-            <div class="container my-5">
-                <div class="row">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-header">
-                                <h1 class="card-title">Find Golf Courses Near You</h1>
+        <div class="container mt-4">
+            <div class="row">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            <h1 class="card-title">Find Golf Courses Near You</h1>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="radiusInput">Search radius (miles):</label>
+                                <input id="radiusInput" type="number" v-model="radiusMiles" min="1" max="50" class="form-control" />
+                                <button type="button" class="btn btn-primary my-2" @click="getGolfCourses">Find Golf Courses</button>
                             </div>
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="radiusInput">Search radius (miles):</label>
-                                    <input id="radiusInput" type="number" v-model="radiusMiles" min="1" max="50" class="form-control" />
-                                    <button type="button" class="btn btn-primary my-2" @click="getGolfCourses">Find Golf Courses</button>
-                                </div>
-                                <ul v-for="(course, index) in golfCourses" :key="index">
-                                    <li>
-                                        <strong>{{ course.poi ? course.poi.name : "Unknown" }}</strong>
-                                    </li>
-                                    <li>{{ course.address.freeformAddress }}</li>
-                                    <li>Distance: {{ (course.dist / 1609.34).toFixed(2) }} miles</li>
-                                    <button type="button" class="btn btn-secondary" @click="addCourse(course)" :disabled="isCourseAdded(course)">
-                                        Add Course
-                                    </button>
-                                </ul>
-                                <div v-if="successMessage" class="alert alert-success mt-3">
-                                    {{ successMessage }}
-                                </div>
+                            <ul v-for="(course, index) in golfCourses" :key="index">
+                                <li>
+                                    <strong>{{ course.poi ? course.poi.name : "Unknown" }}</strong>
+                                </li>
+                                <li>{{ course.address.freeformAddress }}</li>
+                                <li>Distance: {{ (course.dist / 1609.34).toFixed(2) }} miles</li>
+                                <button type="button" class="btn btn-secondary" @click="addCourse(course)" :disabled="isCourseAdded(course)">Add Course</button>
+                            </ul>
+                            <div v-if="successMessage" class="alert alert-success mt-3">
+                                {{ successMessage }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </body>
+        </div>
     </div>
 </template>
 
@@ -113,5 +109,20 @@ body {
     background-image: url(https://i.imgur.com/MnuytsD.jpg);
     background-size: cover;
     box-shadow: 0px 4px 4px 0px #00000040, inset 0 0 0 1000px rgba(0, 0, 0, 0.7);
+}
+
+card {
+    margin-top: 20px;
+}
+
+button {
+    background-color: #166534;
+    border: 1px solid #166534;
+}
+
+button:hover {
+    background-color: #166534;
+    border: 1px solid #166534;
+    cursor: pointer;
 }
 </style>

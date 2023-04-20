@@ -37,12 +37,12 @@
                 <div class="card">
                     <div class="card-body">
                         <h1>Scorecard</h1>
-                        <form @submit.prevent="updateScore(0, 11)">
+                        <form @submit.prevent="updateScore(0, player1Score)">
                             <h4>{{ matchPlayers[0] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player1Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
                         </form>
-                        <form @submit.prevent="updateScore(1, 11)">
+                        <form @submit.prevent="updateScore(1, player2Score)">
                             <h4 class="mt-4">{{ matchPlayers[1] }}</h4>
                             <input class="form-control w-25" placeholder="score" type="number" v-model="player2Score" />
                             <button class="btn btn-primary mt-2">Submit</button>
@@ -70,7 +70,7 @@ export default {
         };
     },
     methods: {
-        updateScore(playerIndex) {
+        updateScore(playerIndex, scoreValue) {
             const matchID = this.$route.params.id;
             axios
                 .get(`/match/${matchID}/scorecards`)
@@ -83,7 +83,7 @@ export default {
                         .put(
                             `/api/scorecards/${scorecardID}`,
                             {
-                                scoreValue: playerIndex === 0 ? this.player1Score : this.player2Score,
+                                scoreValue: scoreValue,
                                 playerID: playerID,
                                 matchID: matchID
                             },
@@ -95,6 +95,12 @@ export default {
                         )
                         .then((response) => {
                             console.log(response.data);
+                            // Update the score in the data object based on the playerIndex
+                            if (playerIndex === 0) {
+                                this.player1Score = scoreValue;
+                            } else if (playerIndex === 1) {
+                                this.player2Score = scoreValue;
+                            }
                             location.reload();
                         })
                         .catch((error) => {
@@ -264,12 +270,12 @@ export default {
 }
 
 button {
-    background-color: #4ade80;
-    border: 1px solid #22c55e;
+    background-color: #166534;
+    border: 1px solid #166534;
 }
 
 button:hover {
-    background-color: #16a34a;
+    background-color: #166534;
     border: 1px solid #166534;
     cursor: pointer;
 }

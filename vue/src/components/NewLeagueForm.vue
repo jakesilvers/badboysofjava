@@ -1,30 +1,24 @@
 <template>
-    <div class="container mt-2">
-        <div class="row">
-            <div class="col-6">
-                <div class="card">
-                    <div class="card-body">
-                        <h1 class="mb-4">Create League</h1>
-                        <form @submit.prevent="submitForm">
-                            <div class="mb-3">
-                                <label for="leagueName">League name</label>
-                                <input v-model="leagueName" type="text" class="form-control" id="leagueName" placeholder="" value="" required />
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="description">Description</label>
-                                <input v-model="description" type="text" class="form-control" id="description" placeholder="" value="" required />
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="country">Course</label>
-                                <course-select-list :courses="courses" @course-selected="updateSelectedCourse"></course-select-list>
-                            </div>
-                            <button class="btn btn-primary btn block" type="submit">Create</button>
-                        </form>
-                    </div>
+    <div class="card">
+        <div class="card-body">
+            <h1 class="mb-4">Create League</h1>
+            <form @submit.prevent="submitForm">
+                <div class="mb-3">
+                    <label for="leagueName">League name</label>
+                    <input v-model="leagueName" type="text" class="form-control" id="leagueName" placeholder="" value="" required />
                 </div>
-            </div>
+
+                <div class="mb-3">
+                    <label for="description">Description</label>
+                    <input v-model="description" type="text" class="form-control" id="description" placeholder="" value="" required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="country">Course</label>
+                    <course-select-list :courses="courses" @course-selected="updateSelectedCourse"></course-select-list>
+                </div>
+                <button class="btn btn-primary btn block" type="submit">Create</button>
+            </form>
         </div>
     </div>
 </template>
@@ -84,17 +78,13 @@ export default {
 </script>
 
 <style scoped>
-.container {
-    max-width: 500px;
-}
-
 button {
-    background-color: #4ade80;
-    border: 1px solid #22c55e;
+    background-color: #166534;
+    border: 1px solid #166534;
 }
 
 button:hover {
-    background-color: #16a34a;
+    background-color: #166534;
     border: 1px solid #166534;
     cursor: pointer;
 }
