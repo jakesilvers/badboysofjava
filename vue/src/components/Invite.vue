@@ -1,6 +1,6 @@
 <template>
     <div v-if="pendingInvitationsExist" class="row mb-2">
-        <div class="col-6">
+        <div class="col-lg-6 col-md-12">
             <div v-for="invite in invitations" :key="invite.invitationID" v-show="invite.invitationStatus === 'Pending'" class="card">
                 <div class="card-body">
                     <div class="row">
@@ -46,7 +46,7 @@ export default {
                             Authorization: `Bearer ${this.$store.state.token}`
                         }
                     });
-                   // console.log("Admin name:", adminResponse.data);
+                    // console.log("Admin name:", adminResponse.data);
 
                     this.$set(invitation, "adminName", adminResponse.data);
                 }
@@ -58,7 +58,7 @@ export default {
 
     methods: {
         acceptInvite(invite) {
-           // console.log("accepting invite:", invite);
+            // console.log("accepting invite:", invite);
             invite.invitationStatus = "Approved";
             axios.put(`/api/invitations/${invite.invitationID}`, invite).then((response) => {
                 console.info("response:", response.data);
