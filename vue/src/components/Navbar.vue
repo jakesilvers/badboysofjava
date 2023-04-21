@@ -33,6 +33,9 @@ img {
     max-width: 100px;
 }
 
+img:hover {
+    background-color: rgb(54, 241, 54);
+}
 .navbar {
     background-color: #166534;
 }
