@@ -1,10 +1,95 @@
-button {
-  background-color: #166534 !important;
-  border: 1px solid #166534 !important;
+* {
+  font-family: "Open Sans", sans-serif;
 }
 
-button:hover {
-  background-color: #166534 !important;
-  border: 1px solid #166534 !important;
-  cursor: pointer;
+#text-link {
+  color: #3db36b !important;
+}
+
+.navbar {
+  background-color: #33965a !important;
+}
+
+.btn-primary {
+  color: #fff !important;
+  background-color: #3db36b !important;
+  border-color: #3db36b !important;
+  cursor: pointer !important;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: 700;
+  color: #212529;
+  text-align: center;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 0.9375rem 1.625rem !important;
+  font-size: 0.75rem !important;
+  line-height: 1.5 !important;
+  border-radius: 0 !important;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+    border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.btn-primary:hover {
+  color: #fff !important;
+  background-color: #33965a !important;
+  border-color: #308d54 !important;
+}
+
+.btn {
+  letter-spacing: 0.125rem;
+  text-transform: uppercase;
+}
+
+.form-control:focus,
+.custom-select:focus {
+  border-color: #95dbb0 !important;
+  outline: 0 !important;
+  box-shadow: 0 0 0 0 transparent !important;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: 50px;
+  padding: 0.5rem 1rem;
+  font-family: Roboto, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #d3d3d3;
+  border-radius: 0 !important;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-label {
+  font-family: Arimo, sans-serif;
+  letter-spacing: 0.125rem;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  color: #9b9b9b;
+}
+.custom-select {
+  height: 50px !important;
+  font-size: 1rem !important;
+  line-height: 1.5 !important;
+  color: #495057;
+  vertical-align: middle;
+  background: #fff;
+  border: 1px solid #d3d3d3 !important;
+  border-radius: 0 !important;
+}
+
+.jumbotron-title {
+  font-weight: 600 !important;
+  font-size: 3.125rem !important;
+}
+
+.jumbotron {
+  background-color: #f9f9f9 !important;
 }
