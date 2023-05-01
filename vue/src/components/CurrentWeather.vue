@@ -51,7 +51,7 @@ export default {
         weatherConditions() {
             const weatherCode = this.weatherCode;
             const weatherCodes = {
-                weatherCode: {
+            
                     0: "Unknown",
                     1000: "Clear, Sunny",
                     1100: "Mostly Clear",
@@ -331,7 +331,7 @@ export default {
                     80031: "Partly Cloudy and Thunderstorm",
                     80021: "Mostly Cloudy and Thunderstorm",
                     80001: "Thunderstorm"
-                }
+                
             };
             return weatherCodes[weatherCode] || "";
         }
